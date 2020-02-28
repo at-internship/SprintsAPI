@@ -1,5 +1,5 @@
 package com.sprints.model;
 
-public class Sprints {
+public class Sprint {
 
 }

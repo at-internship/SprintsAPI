@@ -1,5 +1,5 @@
 package com.sprints.controllers;
 
-public class Controllers {
+public class SprintsController {
 
 }
