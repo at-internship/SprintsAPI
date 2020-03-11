@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprints.exception.EntityNotFoundException;
@@ -20,8 +21,8 @@ public class SprintsController {
 	private SprintsService sprintsService;
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Sprint> deleteSprintById(@PathVariable String id) {
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteSprintById(@PathVariable String id) {
 			sprintsService.deleteById(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 	}
 }
