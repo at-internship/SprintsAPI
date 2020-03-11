@@ -3,6 +3,7 @@ package com.sprints.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sprints.exception.EntityNotFoundException;
 import com.sprints.repository.SprintsRepository;
 
 @Service
@@ -13,12 +14,10 @@ public class SprintsService {
 	
 	//Delete operation
 	public void deleteById(String id) {
-		sprintsRepository.deleteById(id);
-	}
-	public boolean existsById(String id) {
 		if(sprintsRepository.existsById(id)) {
-			return true;
-		}
-		return false;
+			sprintsRepository.deleteById(id);
+			return;
+	}
+		throw new EntityNotFoundException("The given ID could not be found");
 	}
 }

@@ -21,13 +21,7 @@ public class SprintsController {
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Sprint> deleteSprintById(@PathVariable String id) {
-			if(sprintsService.existsById(id)) {
-				sprintsService.deleteById(id);
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}else {
-				throw new EntityNotFoundException("");
-			}
-			
+			sprintsService.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 	}
-
 }
