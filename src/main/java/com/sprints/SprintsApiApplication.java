@@ -1,4 +1,4 @@
-package com.sprints.SprintsAPI;
+package com.sprints;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
