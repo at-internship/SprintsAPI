@@ -1,10 +1,8 @@
 package com.sprints.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import lombok.Data;
 
 @Document(collection="sprints")
@@ -15,10 +13,6 @@ public class Sprint {
 	String technology;
 	boolean active;
 	boolean is_backlog;
-	
-	@DateTimeFormat(pattern="MM/dd/yyyy")
-	LocalDateTime start_date;
-	
-	@DateTimeFormat(pattern="MM/dd/yyyy")
-	LocalDateTime end_date;
+	LocalDate start_date;
+	LocalDate end_date;
 }
