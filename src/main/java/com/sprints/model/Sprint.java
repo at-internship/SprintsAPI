@@ -9,10 +9,11 @@ import lombok.Data;
 @Data
 public class Sprint {
 	@Id
-	String id;
-	String technology;
-	boolean active;
-	boolean is_backlog;
-	LocalDate start_date;
-	LocalDate end_date;
+	private String id;
+	private String name;
+	private String technology;
+	private boolean active;
+	private boolean is_backlog;
+	private LocalDate start_date;
+	private LocalDate end_date;
 }
