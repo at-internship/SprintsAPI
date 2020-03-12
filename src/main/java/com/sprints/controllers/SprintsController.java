@@ -26,8 +26,8 @@ public class SprintsController {
 			sprintsService.deleteById(id);
 	}
 	@GetMapping("/{id}")
-	public Sprint sprintById(@PathVariable("id") String id) throws EntityNotFoundException {
-		Sprint sprint = sprintsService.findSprintById(id);
+	public Sprint findSprintById(@PathVariable("id") String id) throws EntityNotFoundException {
+		Sprint sprint = sprintsService.findById(id);
 		return sprint;
 	}
 }
