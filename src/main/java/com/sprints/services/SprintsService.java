@@ -15,4 +15,5 @@ public interface SprintsService {
 	
 	public String createSprint(SprintDomain sprintDomain);
 	
+	public SprintDomain updateSprint(SprintDomain sprintDomain, String id);
 }

@@ -75,4 +75,26 @@ public class SprintsServiceImpl implements SprintsService {
 		}
 	}
 	
+	// Put Operation
+		@Override
+		@ResponseStatus(value = HttpStatus.ACCEPTED)
+		public SprintDomain updateSprint(SprintDomain sprintDomain, String id) {
+			if (sprintsRepository.existsById(id)) {
+
+				SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
+				try {
+					sprintFinal.setId(id); 
+					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
+					sprintFinal.setId(id);
+					return sprintFinal;
+				} catch (DuplicateKeyException e) {
+					throw new EntityConflictException("There is a sprint with this name already");
+				}
+
+			} else {
+				throw new EntityNotFoundException("The given ID could not be found");
+			}
+
+		}
+	
 }	
