@@ -35,4 +35,5 @@ public class SprintsTransformer extends ConfigurableMapper {
 	public List<SprintDomain> listTransformer(List<Sprint> sprints){
 		return mapperFacade.mapAsList(sprints, SprintDomain.class);
 	}
+	
 }
