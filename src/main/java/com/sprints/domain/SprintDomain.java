@@ -10,8 +10,8 @@ public class SprintDomain {
 	private String id;
 	private String name;
 	private String technology;
-	private boolean active;
-	private boolean is_backlog;
+	private Boolean active;
+	private Boolean is_backlog;
 	private LocalDate start_date;
 	private LocalDate end_date;
 

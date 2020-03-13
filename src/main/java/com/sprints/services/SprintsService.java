@@ -13,4 +13,6 @@ public interface SprintsService {
 	
 	public abstract List<SprintDomain> findAll();
 	
+	public String createSprint(SprintDomain sprintDomain);
+	
 }
