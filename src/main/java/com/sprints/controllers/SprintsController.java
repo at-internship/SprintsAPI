@@ -50,7 +50,7 @@ public class SprintsController {
 	public ResponseEntity<Object> createSprint(@Valid @RequestBody SprintDomain sprintDomain){
 
 				String id = sprintsService.createSprint(sprintDomain);
-				return new ResponseEntity<>("id"+": "+ id, HttpStatus.CREATED);
+				return new ResponseEntity<>("{"+"\"id\""+": " +sprintsService.jsonParserId(id)+"}", HttpStatus.CREATED);
 					
 	}
 }

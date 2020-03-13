@@ -1,5 +1,6 @@
 package com.sprints.services;
 
+import java.io.IOException;
 import java.util.List;
 
 import java.util.Optional;
@@ -9,6 +10,8 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sprints.domain.SprintDomain;
 import com.sprints.exception.EntityConflictException;
 import com.sprints.exception.EntityNotFoundException;
@@ -71,4 +74,18 @@ public class SprintsServiceImpl implements SprintsService {
 			throw new EntityConflictException("There is a sprint with this name already");
 		}
 	}
+	
+	@Override
+	public String jsonParserId(String id) {
+		ObjectMapper Obj = new ObjectMapper();
+		try { 
+            String jsonStr = Obj.writeValueAsString(id);
+            return jsonStr;
+        } 
+  
+        catch (IOException e) { 
+            e.printStackTrace();
+            return null;
+        } 
+    } 
 }	
