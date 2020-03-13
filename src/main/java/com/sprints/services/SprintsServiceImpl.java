@@ -75,17 +75,4 @@ public class SprintsServiceImpl implements SprintsService {
 		}
 	}
 	
-	@Override
-	public String jsonParserId(String id) {
-		ObjectMapper Obj = new ObjectMapper();
-		try { 
-            String jsonStr = Obj.writeValueAsString(id);
-            return jsonStr;
-        } 
-  
-        catch (IOException e) { 
-            e.printStackTrace();
-            return null;
-        } 
-    } 
 }	

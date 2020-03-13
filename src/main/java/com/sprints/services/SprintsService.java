@@ -15,6 +15,4 @@ public interface SprintsService {
 	
 	public String createSprint(SprintDomain sprintDomain);
 	
-	String jsonParserId(String id);
-	
 }
