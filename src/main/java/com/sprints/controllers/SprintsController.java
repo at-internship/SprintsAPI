@@ -1,14 +1,18 @@
 package com.sprints.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sprints.domain.SprintDomain;
 import com.sprints.exception.EntityNotFoundException;
 import com.sprints.model.Sprint;
 import com.sprints.services.SprintsService;
@@ -26,8 +30,12 @@ public class SprintsController {
 			sprintsService.deleteById(id);
 	}
 	@GetMapping("/{id}")
-	public Sprint findSprintById(@PathVariable("id") String id) throws EntityNotFoundException {
-		Sprint sprint = sprintsService.findById(id);
-		return sprint;
+	public SprintDomain findSprintById(@PathVariable("id") String id) throws EntityNotFoundException {
+		SprintDomain sprintDomain = sprintsService.findById(id);
+		return sprintDomain;
+	}
+	@RequestMapping(method=RequestMethod.GET)
+	public List<SprintDomain> findAllSprints(){
+		return sprintsService.findAll();
 	}
 }
