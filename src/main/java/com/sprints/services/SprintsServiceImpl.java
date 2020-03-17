@@ -1,6 +1,5 @@
 package com.sprints.services;
 
-import java.io.IOException;
 import java.util.List;
 
 import java.util.Optional;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sprints.domain.SprintDomain;
 import com.sprints.exception.EntityConflictException;
 import com.sprints.exception.EntityNotFoundException;
@@ -85,7 +83,6 @@ public class SprintsServiceImpl implements SprintsService {
 				try {
 					sprintFinal.setId(id); 
 					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
-					sprintFinal.setId(id);
 					return sprintFinal;
 				} catch (DuplicateKeyException e) {
 					throw new EntityConflictException("There is a sprint with this name already");
