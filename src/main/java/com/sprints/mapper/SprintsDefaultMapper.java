@@ -10,6 +10,9 @@ import com.sprints.domain.SprintDomain;
 public class SprintsDefaultMapper {
 	
 	public SprintDomain sprintsDefaultValues(SprintDomain sprintDomain) {
+		if(sprintDomain.getId() != null) {
+			sprintDomain.setId(null);
+		}
 		if(sprintDomain.getActive() == null) {
 			sprintDomain.setActive(false);
 		}

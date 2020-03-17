@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -50,7 +51,14 @@ public class SprintsController {
 	public ResponseEntity<Object> createSprint(@Valid @RequestBody SprintDomain sprintDomain){
 
 				String id = sprintsService.createSprint(sprintDomain);
-				return new ResponseEntity<>("id"+": "+ id, HttpStatus.CREATED);
+				return new ResponseEntity<>("{"+"\"id\""+": " + id + "}", HttpStatus.CREATED);
 					
+	}
+	
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	@PutMapping("/{id}")
+	public SprintDomain updateSprint(@Valid @RequestBody SprintDomain sprintDomain, @PathVariable String id) {
+		return sprintsService.updateSprint(sprintDomain, id);
+
 	}
 }

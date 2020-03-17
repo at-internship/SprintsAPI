@@ -9,6 +9,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.sprints.domain.SprintDomain;
 import com.sprints.exception.EntityConflictException;
 import com.sprints.exception.EntityNotFoundException;
@@ -71,4 +72,26 @@ public class SprintsServiceImpl implements SprintsService {
 			throw new EntityConflictException("There is a sprint with this name already");
 		}
 	}
+	
+	// Put Operation
+		@Override
+		@ResponseStatus(value = HttpStatus.ACCEPTED)
+		public SprintDomain updateSprint(SprintDomain sprintDomain, String id) {
+			if (sprintsRepository.existsById(id)) {
+
+				SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
+				try {
+					sprintFinal.setId(id); 
+					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
+					return sprintFinal;
+				} catch (DuplicateKeyException e) {
+					throw new EntityConflictException("There is a sprint with this name already");
+				}
+
+			} else {
+				throw new EntityNotFoundException("The given ID could not be found");
+			}
+
+		}
+	
 }	
