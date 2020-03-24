@@ -22,5 +22,11 @@ public class SprintsCustomRepositoryImpl implements SprintsCustomRepository{
 		return mongoTemplate.findOne(query, Sprint.class);
 	}
 	
+	@Override
+	public Sprint oneSprintBacklogValidation() {
+		Query query = new Query()
+						.addCriteria(Criteria.where("is_backlog").is(true));
+		return mongoTemplate.findOne(query, Sprint.class);
+	}
 	
 }
