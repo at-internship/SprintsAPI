@@ -55,7 +55,7 @@ public class SprintsController {
 					
 	}
 	
-	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping("/{id}")
 	public SprintDomain updateSprint(@Valid @RequestBody SprintDomain sprintDomain, @PathVariable String id) {
 		return sprintsService.updateSprint(sprintDomain, id);
