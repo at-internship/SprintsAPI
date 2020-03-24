@@ -18,7 +18,7 @@ import com.sprints.mapper.SprintsDefaultMapper;
 import com.sprints.mapper.SprintsTransformer;
 import com.sprints.model.Sprint;
 import com.sprints.repository.SprintsRepository;
-import com.sprints.repository.SprintsValidationsRepository;
+import com.sprints.repository.SprintsCustomRepository;
 import com.sprints.validations.SprintsValidations;
 
 
@@ -37,7 +37,7 @@ public class SprintsServiceImpl implements SprintsService {
 	private SprintsValidations sprintsValidations;
 	
 	@Autowired
-	private SprintsValidationsRepository sprintsValidationsRepository;
+	private SprintsCustomRepository sprintsValidationsRepository;
 	
 	//Get operation
 	@Override
@@ -75,7 +75,7 @@ public class SprintsServiceImpl implements SprintsService {
 		SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
 		
 		if(sprintFinal.getActive() == true) {
-			Sprint sprints = sprintsValidationsRepository.sprintRepoValidationActive();
+			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
 			sprintsValidations.sprintsValidationsActive(sprints);
 		}
 		
