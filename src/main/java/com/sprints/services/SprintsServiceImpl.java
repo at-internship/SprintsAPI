@@ -2,6 +2,7 @@ package com.sprints.services;
 
 import java.util.List;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import com.sprints.mapper.SprintsDefaultMapper;
 import com.sprints.mapper.SprintsTransformer;
 import com.sprints.model.Sprint;
 import com.sprints.repository.SprintsRepository;
+import com.sprints.repository.SprintsCustomRepository;
+import com.sprints.validations.SprintsValidations;
 
 
 @Service("sprintServiceImpl")
@@ -29,6 +32,12 @@ public class SprintsServiceImpl implements SprintsService {
 	
 	@Autowired
 	private SprintsDefaultMapper sprintDefault;
+	
+	@Autowired
+	private SprintsValidations sprintsValidations;
+	
+	@Autowired
+	private SprintsCustomRepository sprintsValidationsRepository;
 	
 	//Get operation
 	@Override
@@ -64,6 +73,11 @@ public class SprintsServiceImpl implements SprintsService {
 	public String createSprint(SprintDomain sprintDomain) {
 		
 		SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
+		
+		if(sprintFinal.getActive() == true) {
+			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
+			sprintsValidations.sprintsValidationsActive(sprints);
+		}
 		
 		try {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
