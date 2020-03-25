@@ -80,7 +80,9 @@ public class SprintsServiceImpl implements SprintsService {
 		}
 		if(sprintFinal.getIs_backlog() == true) {
 			Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
-			sprintsValidations.sprintValidateInBacklog(sprint);
+			if (sprint != null) {
+				sprintsValidations.sprintValidateInBacklog(sprint);
+			}
 		}
 		try {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
