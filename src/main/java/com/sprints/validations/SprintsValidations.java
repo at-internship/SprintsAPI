@@ -14,8 +14,10 @@ public class SprintsValidations {
 	}
 
 	public void sprintValidateInBacklog(Sprint sprint){
-		if(sprint.getIs_backlog() == true) {
-			throw new EntityConflictException("There is a sprint already in backlog");
-		}		
+		if (sprint != null) {
+			if(sprint.getIs_backlog() == true) {
+				throw new EntityConflictException("There is a sprint already in backlog");
+			}
+		}
 	}
 }
