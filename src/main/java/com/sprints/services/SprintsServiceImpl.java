@@ -1,5 +1,6 @@
 package com.sprints.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import java.util.Optional;
@@ -16,6 +17,7 @@ import com.sprints.exception.EntityNotFoundException;
 import com.sprints.mapper.SprintsDefaultMapper;
 import com.sprints.mapper.SprintsTransformer;
 import com.sprints.model.Sprint;
+import com.sprints.repository.SprintsCustomRepository;
 import com.sprints.repository.SprintsRepository;
 
 
@@ -29,6 +31,9 @@ public class SprintsServiceImpl implements SprintsService {
 	
 	@Autowired
 	private SprintsDefaultMapper sprintDefault;
+	
+	@Autowired
+	SprintsCustomRepository sprintsCustomRepository;
 	
 	//Get operation
 	@Override
@@ -92,6 +97,13 @@ public class SprintsServiceImpl implements SprintsService {
 				throw new EntityNotFoundException("The given ID could not be found");
 			}
 
+		}
+	// Get Operation find all sprints sorted by parameters
+		@Override
+		public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
+				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+			
+			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(name, technology, start_date, end_date));
 		}
 	
 }	
