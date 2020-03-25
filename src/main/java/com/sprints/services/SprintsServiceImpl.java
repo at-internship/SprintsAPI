@@ -82,6 +82,9 @@ public class SprintsServiceImpl implements SprintsService {
 			Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
 			sprintsValidations.sprintValidateInBacklog(sprint);
 		}
+		if(sprintDomain.getEnd_date() != null) {
+			sprintsValidations.sprintsEndDateValidations(sprintDomain);
+		}
 		try {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
 			
