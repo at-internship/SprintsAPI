@@ -27,15 +27,9 @@ public class SprintsValidations {
 	}
 	
 	public void sprintsEndDateValidations(SprintDomain sprintDomain) {
-		LocalDate dateNow = LocalDate.now();
-		if(sprintDomain.getEnd_date().isBefore(dateNow)) {
+		if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
 			if(sprintDomain.getActive() == true) {
-				throw new EntityConflictException("Sprints with past date can not be active");
-			}
-		}
-		if(sprintDomain.getEnd_date().isEqual(dateNow)) {
-			if(sprintDomain.getActive() == true) {
-				throw new EntityConflictException("Sprints with present date can not be active");
+				throw new EntityConflictException("Sprints with past/present date can not be active");
 			}
 		}
 	}
