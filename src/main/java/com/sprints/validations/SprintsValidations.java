@@ -8,6 +8,7 @@ import com.sprints.model.Sprint;
 public class SprintsValidations {
 	
 	public void sprintsValidationsActive(Sprint sprint) {
+		if(sprint != null)
 			if(sprint.getActive() == true) {
 				throw new EntityConflictException("There is an active sprint already");
 			}
