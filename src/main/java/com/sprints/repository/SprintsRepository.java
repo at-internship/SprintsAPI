@@ -7,5 +7,4 @@ import com.sprints.model.Sprint;
 
 @Repository
 public interface SprintsRepository extends MongoRepository<Sprint, String> {
-
 }

@@ -1,12 +1,12 @@
 package com.sprints.services;
 
+import java.time.LocalDate;
 import java.util.List;
-
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,10 +17,10 @@ import com.sprints.exception.EntityNotFoundException;
 import com.sprints.mapper.SprintsDefaultMapper;
 import com.sprints.mapper.SprintsTransformer;
 import com.sprints.model.Sprint;
-import com.sprints.repository.SprintsRepository;
 import com.sprints.repository.SprintsCustomRepository;
+import com.sprints.repository.SprintsRepository;
 import com.sprints.validations.SprintsValidations;
-
+import com.sprints.validations.ValidateQueryParams;
 
 @Service("sprintServiceImpl")
 public class SprintsServiceImpl implements SprintsService {
@@ -34,10 +34,15 @@ public class SprintsServiceImpl implements SprintsService {
 	private SprintsDefaultMapper sprintDefault;
 	
 	@Autowired
+	SprintsCustomRepository sprintsCustomRepository;
+	
 	private SprintsValidations sprintsValidations;
 	
 	@Autowired
 	private SprintsCustomRepository sprintsValidationsRepository;
+	
+	@Autowired
+	private ValidateQueryParams validateQueryParams;
 	
 	//Get operation
 	@Override
@@ -112,6 +117,27 @@ public class SprintsServiceImpl implements SprintsService {
 				throw new EntityNotFoundException("The given ID could not be found");
 			}
 
+		}
+		
+	// Get Operation find all sprints sorted by parameters
+		@Override
+		public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
+				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+			
+			Criteria criteria = validateQueryParams.fillCriteriaWithParams(name, technology, start_date, end_date);
+			
+			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(criteria));
+		}
+		
+	//Method to check if GET with filters or GET ALL will be performed
+		@Override
+		public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
+				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+				
+			if(name.isEmpty() && technology.isEmpty() && start_date.isEmpty() && end_date.isEmpty()) {
+				return findAll();
+			}
+				return findAllByParams(name, technology, start_date, end_date);
 		}
 	
 }	

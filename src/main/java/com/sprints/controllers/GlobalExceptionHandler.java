@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.sprints.exception.EntityConflictException;
 import com.sprints.exception.EntityNotFoundException;
+import com.sprints.exception.UndeclaredRequestParamException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -24,4 +25,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return exception.getMessage();
 
 	}
+	
+	@ExceptionHandler
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public void handleUndeclaredRequestParams(UndeclaredRequestParamException exception) {
+		
+	}
+	
 }

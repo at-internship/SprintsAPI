@@ -1,5 +1,6 @@
 package com.sprints.repository;
 
+import java.util.List;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -28,5 +29,12 @@ public class SprintsCustomRepositoryImpl implements SprintsCustomRepository{
 						.addCriteria(Criteria.where("is_backlog").is(true));
 		return mongoTemplate.findOne(query, Sprint.class);
 	}
-	
+
+	@Override
+	public List<Sprint> findAllByParams(Criteria criteria) {
+		
+		Query query = new Query(criteria);	
+		return mongoTemplate.find(query, Sprint.class);
+	}
+
 }
