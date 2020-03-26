@@ -72,16 +72,6 @@
 			<artifactId>orika-core</artifactId>
 			<version>1.5.4</version>
 		</dependency>
-				<dependency>
-        		<groupId>io.springfox</groupId>
-        		<artifactId>springfox-swagger2</artifactId>
-        		<version>2.9.2</version>
-		</dependency>
-		<dependency>
-        		<groupId>io.springfox</groupId>
-       			<artifactId>springfox-swagger-ui</artifactId>
-        		<version>2.9.2</version>
-		</dependency>		
 	</dependencies>
 
 	<build>
@@ -129,42 +119,7 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
-			 <plugin>
-				<groupId>com.github.kongchen</groupId>
-				<artifactId>swagger-maven-plugin</artifactId>
-				<version>3.1.7</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<apiSources>
-						<apiSource>
-							<springmvc>true</springmvc>
-							<locations>com.sprints</locations>
-
-							<info>
-								<title>Sprints API</title>
-								<description>
-									Official documentation for Sprints AP
-								</description>
-								<version>0.0.1</version>
-								<contact>
-									<url>http://sprints-qa.us-east-2.elasticbeanstalk.com</url>
-								</contact>
-							</info>
-							<swaggerDirectory>${project.basedir}/src/main/resources</swaggerDirectory>
-							<swaggerFileName>swagger</swaggerFileName>
-							<outputFormats>json,yaml</outputFormats>
-							<attachSwaggerArtifact>true</attachSwaggerArtifact>
-						</apiSource>
-					</apiSources>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
+
 </project>

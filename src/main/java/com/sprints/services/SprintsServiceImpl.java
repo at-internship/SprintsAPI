@@ -21,6 +21,8 @@ import com.sprints.repository.SprintsRepository;
 import com.sprints.repository.SprintsCustomRepository;
 import com.sprints.validations.SprintsValidations;
 
+import io.swagger.annotations.ApiOperation;
+
 
 @Service("sprintServiceImpl")
 public class SprintsServiceImpl implements SprintsService {
@@ -40,6 +42,7 @@ public class SprintsServiceImpl implements SprintsService {
 	private SprintsCustomRepository sprintsValidationsRepository;
 	
 	//Get operation
+	@ApiOperation(value = "Find sprints by id")
 	@Override
 	public SprintDomain findById(String id){
 		if(sprintsRepository.existsById(id)) {
@@ -51,6 +54,7 @@ public class SprintsServiceImpl implements SprintsService {
 	}
 	
 	//Delete operation
+	@ApiOperation(value = "Delete sprints by id")
 	@Override
 	public void deleteById(String id) {
 		if(sprintsRepository.existsById(id)) {
@@ -61,6 +65,7 @@ public class SprintsServiceImpl implements SprintsService {
 	}
 	
 	//Get operation find all sprints
+	@ApiOperation(value = "Find all sprints")
 	@Override
 	public List<SprintDomain> findAll() {
 		List<Sprint> sprints = sprintsRepository.findAll();
@@ -68,6 +73,7 @@ public class SprintsServiceImpl implements SprintsService {
 	}
 	
 	//Post operation
+	@ApiOperation(value = "Add new sprints")
 	@Override
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public String createSprint(SprintDomain sprintDomain) {
@@ -91,6 +97,7 @@ public class SprintsServiceImpl implements SprintsService {
 	}
 	
 	// Put Operation
+	@ApiOperation(value = "Update sprints by id")
 		@Override
 		@ResponseStatus(value = HttpStatus.ACCEPTED)
 		public SprintDomain updateSprint(SprintDomain sprintDomain, String id) {
