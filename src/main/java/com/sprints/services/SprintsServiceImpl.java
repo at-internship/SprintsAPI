@@ -1,17 +1,12 @@
 package com.sprints.services;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,6 +20,7 @@ import com.sprints.model.Sprint;
 import com.sprints.repository.SprintsCustomRepository;
 import com.sprints.repository.SprintsRepository;
 import com.sprints.validations.SprintsValidations;
+import com.sprints.validations.ValidateQueryParams;
 
 @Service("sprintServiceImpl")
 public class SprintsServiceImpl implements SprintsService {
@@ -44,6 +40,9 @@ public class SprintsServiceImpl implements SprintsService {
 	
 	@Autowired
 	private SprintsCustomRepository sprintsValidationsRepository;
+	
+	@Autowired
+	private ValidateQueryParams validateQueryParams;
 	
 	//Get operation
 	@Override
@@ -125,29 +124,9 @@ public class SprintsServiceImpl implements SprintsService {
 		public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
 				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
 			
-			Criteria criteria = new Criteria();
+			Criteria criteria = validateQueryParams.fillCriteriaWithParams(name, technology, start_date, end_date);
 			
-			if(name.isPresent()) {
-				criteria = criteria.and("name").is(name.get());
-			}		
-			if(technology.isPresent()) {
-				criteria = criteria.and("technology").is(technology.get());
-			}
-			if(start_date.isPresent()) {
-				LocalDate start_Date = start_date.get();
-				Date startDate = Date.from(start_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
-				
-				criteria = criteria.and("start_date").is(startDate);
-			}
-			if(end_date.isPresent()) {
-				LocalDate end_Date = end_date.get();
-				Date endDate = Date.from(end_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
-				
-				criteria = criteria.and("end_date").is(endDate);
-			}
-			Query query = new Query(criteria);
-			
-			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(query));
+			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(criteria));
 		}
 		
 	//Method to check if GET with filters or GET ALL will be performed

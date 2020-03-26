@@ -1,11 +1,6 @@
 package com.sprints.repository;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -36,8 +31,9 @@ public class SprintsCustomRepositoryImpl implements SprintsCustomRepository{
 	}
 
 	@Override
-	public List<Sprint> findAllByParams(Query query) {
+	public List<Sprint> findAllByParams(Criteria criteria) {
 		
+		Query query = new Query(criteria);	
 		return mongoTemplate.find(query, Sprint.class);
 	}
 
