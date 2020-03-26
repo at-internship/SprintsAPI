@@ -5,11 +5,11 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-
 import com.sprints.model.Sprint;
 
 @Repository
@@ -62,5 +62,4 @@ public class SprintsCustomRepositoryImpl implements SprintsCustomRepository{
 		Query query = new Query(criteria);
 		return mongoTemplate.find(query, Sprint.class);
 	}
-	
 }

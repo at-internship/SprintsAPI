@@ -3,6 +3,7 @@ package com.sprints.services;
 import java.time.LocalDate;
 import java.util.List;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import com.sprints.mapper.SprintsTransformer;
 import com.sprints.model.Sprint;
 import com.sprints.repository.SprintsCustomRepository;
 import com.sprints.repository.SprintsRepository;
-
+import com.sprints.validations.SprintsValidations;
 
 @Service("sprintServiceImpl")
 public class SprintsServiceImpl implements SprintsService {
@@ -34,6 +35,11 @@ public class SprintsServiceImpl implements SprintsService {
 	
 	@Autowired
 	SprintsCustomRepository sprintsCustomRepository;
+	
+	private SprintsValidations sprintsValidations;
+	
+	@Autowired
+	private SprintsCustomRepository sprintsValidationsRepository;
 	
 	//Get operation
 	@Override
@@ -70,6 +76,17 @@ public class SprintsServiceImpl implements SprintsService {
 		
 		SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
 		
+		if(sprintFinal.getActive() == true) {
+			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
+			sprintsValidations.sprintsValidationsActive(sprints);
+		}
+		if(sprintFinal.getIs_backlog() == true) {
+			Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
+			sprintsValidations.sprintValidateInBacklog(sprint);
+		}
+		if(sprintDomain.getEnd_date() != null) {
+			sprintsValidations.sprintsEndDateValidations(sprintDomain);
+		}
 		try {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
 			

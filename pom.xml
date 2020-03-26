@@ -72,6 +72,16 @@
 			<artifactId>orika-core</artifactId>
 			<version>1.5.4</version>
 		</dependency>
+		<dependency>
+        		<groupId>io.springfox</groupId>
+        		<artifactId>springfox-swagger2</artifactId>
+        		<version>2.9.2</version>
+		</dependency>
+		<dependency>
+        		<groupId>io.springfox</groupId>
+       			<artifactId>springfox-swagger-ui</artifactId>
+        		<version>2.9.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -79,6 +89,81 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+
+							<dataFile>target/jacoco.exec</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>target/my-reports</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<systemPropertyVariables>
+						<jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>3.1.7</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<springmvc>true</springmvc>
+							<locations>com.sprints</locations>
+
+							<info>
+								<title>Sprints API</title>
+								<description>
+									Official documentation for Sprints API
+								</description>
+								<version>0.0.1</version>
+								<contact>
+									<url>http://sprints-qa.us-east-2.elasticbeanstalk.com</url>
+								</contact>
+							</info>
+							<swaggerDirectory>${project.basedir}/src/main/resources</swaggerDirectory>
+							<swaggerFileName>swagger</swaggerFileName>
+							<outputFormats>json,yaml</outputFormats>
+							<attachSwaggerArtifact>true</attachSwaggerArtifact>
+						</apiSource>
+					</apiSources>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
