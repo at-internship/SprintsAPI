@@ -36,30 +36,9 @@ public class SprintsCustomRepositoryImpl implements SprintsCustomRepository{
 	}
 
 	@Override
-	public List<Sprint> findAllByParams(Optional<String> name, Optional<String> technology,
-			Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+	public List<Sprint> findAllByParams(Query query) {
 		
-		Criteria criteria = new Criteria();
-		
-		if(name.isPresent()) {
-			criteria = criteria.and("name").is(name.get());
-		}		
-		if(technology.isPresent()) {
-			criteria = criteria.and("technology").is(technology.get());
-		}
-		if(start_date.isPresent()) {
-			LocalDate start_Date = start_date.get();
-			Date startDate = Date.from(start_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
-			
-			criteria = criteria.and("start_date").is(startDate);
-		}
-		if(end_date.isPresent()) {
-			LocalDate end_Date = end_date.get();
-			Date endDate = Date.from(end_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
-			
-			criteria = criteria.and("end_date").is(endDate);
-		}
-		Query query = new Query(criteria);
 		return mongoTemplate.find(query, Sprint.class);
 	}
+
 }

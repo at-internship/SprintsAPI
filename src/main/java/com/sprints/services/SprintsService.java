@@ -20,4 +20,7 @@ public interface SprintsService {
 
 	public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
 			Optional<LocalDate> start_date, Optional<LocalDate> end_date);
+
+	public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
+			Optional<LocalDate> start_date, Optional<LocalDate> end_date);
 }

@@ -1,8 +1,8 @@
 package com.sprints.repository;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.data.mongodb.core.query.Query;
 
 import com.sprints.model.Sprint;
 
@@ -12,8 +12,7 @@ public interface SprintsCustomRepository {
 	
 	public Sprint oneSprintBacklogValidation();
 	
-	public List<Sprint> findAllByParams(Optional<String> name, Optional<String> technology,
-			Optional<LocalDate> start_date, Optional<LocalDate> end_date);
+	public List<Sprint> findAllByParams(Query query);
 
 }
 

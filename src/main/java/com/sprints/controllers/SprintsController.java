@@ -59,13 +59,17 @@ public class SprintsController {
 												@RequestParam("start_date") @DateTimeFormat(iso = ISO.DATE) Optional<LocalDate> start_date,
 												@RequestParam("end_date") @DateTimeFormat(iso = ISO.DATE) Optional<LocalDate> end_date){
 		
+		return sprintsService.findAllSprints(name, technology, start_date, end_date);
+/*		
 		if(name.isEmpty() && technology.isEmpty() && start_date.isEmpty() && end_date.isEmpty()) {
 			return sprintsService.findAll();
 		}
 		else {
 			return sprintsService.findAllByParams(name, technology, start_date, end_date);
 		}
+*/
 	}
+	
 	
 	@ApiOperation(value = "Add new sprints")
 	@PostMapping(value = "/")

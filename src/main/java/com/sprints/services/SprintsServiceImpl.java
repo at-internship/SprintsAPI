@@ -1,6 +1,8 @@
 package com.sprints.services;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 
@@ -8,6 +10,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -115,12 +119,46 @@ public class SprintsServiceImpl implements SprintsService {
 			}
 
 		}
+		
 	// Get Operation find all sprints sorted by parameters
 		@Override
 		public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
 				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
 			
-			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(name, technology, start_date, end_date));
+			Criteria criteria = new Criteria();
+			
+			if(name.isPresent()) {
+				criteria = criteria.and("name").is(name.get());
+			}		
+			if(technology.isPresent()) {
+				criteria = criteria.and("technology").is(technology.get());
+			}
+			if(start_date.isPresent()) {
+				LocalDate start_Date = start_date.get();
+				Date startDate = Date.from(start_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
+				
+				criteria = criteria.and("start_date").is(startDate);
+			}
+			if(end_date.isPresent()) {
+				LocalDate end_Date = end_date.get();
+				Date endDate = Date.from(end_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
+				
+				criteria = criteria.and("end_date").is(endDate);
+			}
+			Query query = new Query(criteria);
+			
+			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(query));
+		}
+		
+	//Method to check if GET with filters or GET ALL will be performed
+		@Override
+		public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
+				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+				
+			if(name.isEmpty() && technology.isEmpty() && start_date.isEmpty() && end_date.isEmpty()) {
+				return findAll();
+			}
+				return findAllByParams(name, technology, start_date, end_date);
 		}
 	
 }	
