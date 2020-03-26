@@ -1,9 +1,10 @@
 package com.sprints.repository;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -47,14 +48,18 @@ public class SprintsCustomRepositoryImpl implements SprintsCustomRepository{
 			criteria = criteria.and("technology").is(technology.get());
 		}
 		if(start_date.isPresent()) {
-			criteria = criteria.and("start_date").is(start_date.get());
+			LocalDate start_Date = start_date.get();
+			Date startDate = Date.from(start_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
+			
+			criteria = criteria.and("start_date").is(startDate);
 		}
 		if(end_date.isPresent()) {
-			criteria = criteria.and("end_date").is(end_date.get());
+			LocalDate end_Date = end_date.get();
+			Date endDate = Date.from(end_Date.atStartOfDay(ZoneId.of("UTC")).toInstant());
+			
+			criteria = criteria.and("end_date").is(endDate);
 		}
-		
 		Query query = new Query(criteria);
-		
 		return mongoTemplate.find(query, Sprint.class);
 	}
 	
