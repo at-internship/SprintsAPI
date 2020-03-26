@@ -23,6 +23,8 @@ import com.sprints.exception.EntityNotFoundException;
 import com.sprints.model.Sprint;
 import com.sprints.services.SprintsService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/sprints")
 public class SprintsController {
@@ -30,23 +32,27 @@ public class SprintsController {
 	@Autowired
 	private SprintsService sprintsService;
 	
+	@ApiOperation(value = "Delete sprints by id")
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteSprintById(@PathVariable String id) {
 			sprintsService.deleteById(id);
 	}
 	
+	@ApiOperation(value = "Find sprints by id")
 	@GetMapping("/{id}")
 	public SprintDomain findSprintById(@PathVariable("id") String id) throws EntityNotFoundException {
 		SprintDomain sprintDomain = sprintsService.findById(id);
 		return sprintDomain;
 	}
 	
+	@ApiOperation(value = "Find all sprints")
 	@RequestMapping(method=RequestMethod.GET)
 	public List<SprintDomain> findAllSprints(){
 		return sprintsService.findAll();
 	}
 	
+	@ApiOperation(value = "Add new sprints")
 	@PostMapping(value = "/")
 	public ResponseEntity<Object> createSprint(@Valid @RequestBody SprintDomain sprintDomain){
 
@@ -55,6 +61,7 @@ public class SprintsController {
 					
 	}
 	
+	@ApiOperation(value = "Update sprints by id")
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping("/{id}")
 	public SprintDomain updateSprint(@Valid @RequestBody SprintDomain sprintDomain, @PathVariable String id) {
