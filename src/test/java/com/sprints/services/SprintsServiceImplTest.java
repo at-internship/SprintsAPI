@@ -25,9 +25,4 @@ class SprintsServiceImplTest {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
     }
-    
-	@Test
-	void testDeleteById() {
-		fail("Not yet implemented");
-	}
 }
