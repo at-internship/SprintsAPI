@@ -88,6 +88,11 @@ public class SprintsServiceImpl implements SprintsService {
 			Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
 			sprintsValidations.sprintValidateInBacklog(sprint);
 		}
+		
+		if(sprintFinal.getActive()==true && sprintFinal.getIs_backlog() == true) {
+			sprintsValidations.sprintValidateBothBooleans(sprintDomain);
+		}
+		
 		if(sprintDomain.getEnd_date() != null) {
 			sprintsValidations.sprintsEndDateValidations(sprintDomain);
 		}

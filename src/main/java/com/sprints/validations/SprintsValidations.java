@@ -26,6 +26,14 @@ public class SprintsValidations {
 		}
 	}
 	
+	public void sprintValidateBothBooleans(SprintDomain sprintDomain){
+		if (sprintDomain != null) {
+			if(sprintDomain.getIs_backlog() == true && sprintDomain.getActive() == true) {
+				throw new EntityConflictException("A sprint cannot be Active and in Backlog at the same time");
+			}
+		}
+	}
+	
 	public void sprintsEndDateValidations(SprintDomain sprintDomain) {
 		if(sprintDomain.getActive() == true) {
 			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
