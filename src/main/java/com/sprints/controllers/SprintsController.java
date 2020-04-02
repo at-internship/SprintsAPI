@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sprints.domain.SprintDomain;
+import com.sprints.domain.SprintDomainId;
 import com.sprints.exception.EntityNotFoundException;
 import com.sprints.interceptors.DisallowUndeclaredRequestParams;
 import com.sprints.services.SprintsService;
@@ -68,8 +69,9 @@ public class SprintsController {
 	@PostMapping(value = "/")
 	public ResponseEntity<Object> createSprint(@Valid @RequestBody SprintDomain sprintDomain){
 
-				String id = sprintsService.createSprint(sprintDomain);
-				return new ResponseEntity<>("{"+"\"id\""+": " + id + "}", HttpStatus.CREATED);
+		SprintDomainId sprintDomainId = new SprintDomainId();
+		sprintDomainId.setId(sprintsService.createSprint(sprintDomain));
+		return new ResponseEntity<>(sprintDomainId, HttpStatus.CREATED);
 					
 	}
 	
