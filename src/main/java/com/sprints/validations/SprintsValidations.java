@@ -11,6 +11,12 @@ import com.sprints.model.Sprint;
 @Component
 public class SprintsValidations {
 	
+	public void sprintValidateBothBooleans(SprintDomain sprintDomain){
+			if(sprintDomain.getActive() && sprintDomain.getIs_backlog()) {
+				throw new EntityConflictException("A sprint cannot be Active and in Backlog at the same time");
+		}
+	}
+	
 	public void sprintsValidationsActive(Sprint sprint) {
 		if(sprint != null)
 			if(sprint.getActive() == true) {
