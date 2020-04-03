@@ -82,7 +82,6 @@ public class SprintsServiceImpl implements SprintsService {
 		
 		sprintsValidations.sprintValidateBothBooleans(sprintDomain);
 		
-		
 		if(sprintFinal.getActive() == true) {
 			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
 			sprintsValidations.sprintsValidationsActive(sprints);
