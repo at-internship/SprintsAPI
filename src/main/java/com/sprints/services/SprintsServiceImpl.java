@@ -80,9 +80,8 @@ public class SprintsServiceImpl implements SprintsService {
 		
 		SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
 		
-		if(sprintDomain.getActive()==true && sprintDomain.getIs_backlog() == true) {
-			sprintsValidations.sprintValidateBothBooleans(sprintDomain);
-		}
+		sprintsValidations.sprintValidateBothBooleans(sprintDomain);
+		
 		
 		if(sprintFinal.getActive() == true) {
 			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
