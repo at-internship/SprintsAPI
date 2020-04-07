@@ -108,6 +108,23 @@ public class SprintsServiceImpl implements SprintsService {
 			if (sprintsRepository.existsById(id)) {
 
 				SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
+				
+				sprintsValidations.sprintValidateBothBooleans(sprintDomain);
+				
+				if(sprintFinal.getActive() == true) {
+					Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
+					sprintsValidations.sprintsValidationsActive(sprints);
+				}
+				
+				if(sprintFinal.getIs_backlog() == true) {
+					Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
+					sprintsValidations.sprintValidateInBacklog(sprint);
+				}
+				
+				if(sprintFinal.getEnd_date() != null) {
+					sprintsValidations.sprintsEndDateValidations(sprintDomain);
+				}
+				
 				try {
 					sprintFinal.setId(id); 
 					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
