@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import com.sprints.domain.SprintDomain;
 import com.sprints.exception.EntityConflictException;
 import com.sprints.exception.EntityNotFoundException;
@@ -52,7 +51,7 @@ public class SprintsServiceImpl implements SprintsService {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
 			return sprintsTransformer.transformer(sprintOptional.get());
 		}else {
-			throw new EntityNotFoundException("This Sprint does not exist");
+			throw new EntityNotFoundException("This Sprint does not exist", "/");
 		}		
 	}
 	
@@ -63,7 +62,7 @@ public class SprintsServiceImpl implements SprintsService {
 			sprintsRepository.deleteById(id);
 			return;
 		}
-		throw new EntityNotFoundException("The given ID could not be found");
+		throw new EntityNotFoundException("The given ID could not be found", "/");
 	}
 	
 	//Get operation find all sprints
@@ -99,10 +98,9 @@ public class SprintsServiceImpl implements SprintsService {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
 			
 		}catch(DuplicateKeyException e) {
-			throw new EntityConflictException("There is a sprint with this name already");
+			throw new EntityConflictException("There is a sprint with this name already", "/");
 		}
 	}
-	
 	// Put Operation
 		@Override
 		@ResponseStatus(value = HttpStatus.ACCEPTED)
@@ -115,11 +113,11 @@ public class SprintsServiceImpl implements SprintsService {
 					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
 					return sprintFinal;
 				} catch (DuplicateKeyException e) {
-					throw new EntityConflictException("There is a sprint with this name already");
+					throw new EntityConflictException("There is a sprint with this name already", "/");
 				}
 
 			} else {
-				throw new EntityNotFoundException("The given ID could not be found");
+				throw new EntityNotFoundException("The given ID could not be found", "/");
 			}
 
 		}
