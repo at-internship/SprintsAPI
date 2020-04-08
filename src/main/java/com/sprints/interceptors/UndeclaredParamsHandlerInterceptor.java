@@ -37,7 +37,7 @@ public class UndeclaredParamsHandlerInterceptor extends HandlerInterceptorAdapte
 		request.getParameterMap().entrySet().forEach(entry -> {
 			String param = entry.getKey();
 			if (!allowedParams.contains(param)) {
-				throw new UndeclaredRequestParamException();
+				throw new UndeclaredRequestParamException("Invalid request parameters have been entered", "/");
 			}
 		});
 	}
