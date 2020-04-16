@@ -1,6 +1,7 @@
 package com.sprints.validations;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,14 @@ public class SprintsValidations {
 			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
 				throw new EntityConflictException("Sprints with past/present date can not be active", "/");
 			}
+		}
+	}
+	
+	public boolean sprintsActiveValidation(Optional<Sprint> sprintOptional){
+		if(sprintOptional.get().getActive() == true) {
+			throw new EntityConflictException("You cannot delete an active sprint", "/");
+		}else {
+			return false;
 		}
 	}
 }

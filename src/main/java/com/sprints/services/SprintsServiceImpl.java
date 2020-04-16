@@ -59,8 +59,11 @@ public class SprintsServiceImpl implements SprintsService {
 	@Override
 	public void deleteById(String id) {
 		if(sprintsRepository.existsById(id)) {
-			sprintsRepository.deleteById(id);
-			return;
+			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
+			if(!(sprintsValidations.sprintsActiveValidation(sprintOptional))) {
+				sprintsRepository.deleteById(id);
+				return;
+			}
 		}
 		throw new EntityNotFoundException("The given ID could not be found", "/");
 	}
