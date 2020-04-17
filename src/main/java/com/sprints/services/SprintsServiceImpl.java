@@ -59,6 +59,8 @@ public class SprintsServiceImpl implements SprintsService {
 	@Override
 	public void deleteById(String id) {
 		if(sprintsRepository.existsById(id)) {
+			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
+			sprintsValidations.sprintsActiveValidation(sprintOptional);
 			sprintsRepository.deleteById(id);
 			return;
 		}
