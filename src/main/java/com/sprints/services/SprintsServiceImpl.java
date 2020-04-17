@@ -1,6 +1,7 @@
 package com.sprints.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,7 +154,7 @@ public class SprintsServiceImpl implements SprintsService {
 		@Override
 		public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
 				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
-				
+			
 			if(!name.isPresent() && !technology.isPresent() && !start_date.isPresent() && !end_date.isPresent()) {
 				return findAll();
 			}

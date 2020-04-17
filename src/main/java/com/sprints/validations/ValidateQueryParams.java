@@ -16,10 +16,10 @@ public class ValidateQueryParams {
 		
 		Criteria criteria = new Criteria();
 		
-		if(name.isPresent()) {
+		if(name.isPresent() && !name.get().trim().isEmpty()) {
 			criteria = criteria.and("name").is(name.get());
 		}		
-		if(technology.isPresent()) {
+		if(technology.isPresent() && !technology.get().trim().isEmpty()) {
 			criteria = criteria.and("technology").is(technology.get());
 		}
 		if(start_date.isPresent()) {

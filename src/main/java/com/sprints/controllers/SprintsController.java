@@ -54,7 +54,6 @@ public class SprintsController {
 	
 	@ApiOperation(value = "Find all sprints")
 	@RequestMapping(method=RequestMethod.GET)
-	@DisallowUndeclaredRequestParams
 	public List<SprintDomain> findAllSprints( @RequestParam("name") Optional<String> name,
 												@RequestParam("technology") Optional<String> technology,
 												@RequestParam("start_date") @DateTimeFormat(iso = ISO.DATE) Optional<LocalDate> start_date,
