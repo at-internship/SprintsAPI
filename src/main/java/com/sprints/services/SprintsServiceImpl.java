@@ -60,10 +60,9 @@ public class SprintsServiceImpl implements SprintsService {
 	public void deleteById(String id) {
 		if(sprintsRepository.existsById(id)) {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
-			if(!(sprintsValidations.sprintsActiveValidation(sprintOptional))) {
-				sprintsRepository.deleteById(id);
-				return;
-			}
+			sprintsValidations.sprintsActiveValidation(sprintOptional);
+			sprintsRepository.deleteById(id);
+			return;
 		}
 		throw new EntityNotFoundException("The given ID could not be found", "/");
 	}

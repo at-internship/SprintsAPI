@@ -41,11 +41,9 @@ public class SprintsValidations {
 		}
 	}
 	
-	public boolean sprintsActiveValidation(Optional<Sprint> sprintOptional){
+	public void sprintsActiveValidation(Optional<Sprint> sprintOptional){
 		if(sprintOptional.get().getActive() == true) {
 			throw new EntityConflictException("You cannot delete an active sprint", "/");
-		}else {
-			return false;
 		}
 	}
 }
