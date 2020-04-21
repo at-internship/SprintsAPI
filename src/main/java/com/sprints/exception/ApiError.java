@@ -16,7 +16,7 @@ import lombok.Getter;
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 		private LocalDateTime timestamp;
 		private int status;
-		private HttpStatus error;	
+		private String error;
 		private String message;
 		private String path;
 
@@ -24,40 +24,40 @@ import lombok.Getter;
 			this.timestamp = LocalDateTime.now();
 		}
 
-		public ApiError(HttpStatus error) {
+		public ApiError(String error) {
 			this();
 			this.error = error;
 		}
 
 		public ApiError(HttpStatus error, Throwable ex) {
 			this();
-			this.error = error;
+			this.error = error.getReasonPhrase();
 			this.message = "Unexpected error";
 		}
 
 		public ApiError(HttpStatus error, String message) {
 			this();
-			this.error = error;
+			this.error = error.getReasonPhrase();
 			this.message = message;
 		}
 
 		public ApiError(HttpStatus error, String message, Throwable ex) {
 			this();
-			this.error = error;
+			this.error = error.getReasonPhrase();
 			this.message = message;
 		}
 
 		public ApiError(HttpStatus error, int status, String message, String path) {
 			this();
 			this.status = error.value();
-			this.error = error;
+			this.error = error.getReasonPhrase();
 			this.message = message;
 			this.path = path;
 		}
 
 		public ApiError(HttpStatus error, String message, Throwable ex, String path) {
 			this();
-			this.error = error;
+			this.error = error.getReasonPhrase();
 			this.message = message;
 			this.path = path;
 		}
