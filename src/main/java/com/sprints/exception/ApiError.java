@@ -24,9 +24,9 @@ import lombok.Getter;
 			this.timestamp = LocalDateTime.now();
 		}
 
-		public ApiError(String error) {
+		public ApiError(HttpStatus error) {
 			this();
-			this.error = error;
+			this.error = error.getReasonPhrase();
 		}
 
 		public ApiError(HttpStatus error, Throwable ex) {
