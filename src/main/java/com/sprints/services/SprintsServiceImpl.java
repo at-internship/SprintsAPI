@@ -25,40 +25,40 @@ import com.sprints.validations.ValidateQueryParams;
 public class SprintsServiceImpl implements SprintsService {
 	@Autowired
 	private SprintsRepository sprintsRepository;
-	
+
 	@Autowired
 	private SprintsTransformer sprintsTransformer;
-	
+
 	@Autowired
 	private SprintsDefaultMapper sprintDefault;
-	
+
 	@Autowired
 	SprintsCustomRepository sprintsCustomRepository;
-	
+
 	@Autowired
 	private SprintsValidations sprintsValidations;
-	
+
 	@Autowired
 	private SprintsCustomRepository sprintsValidationsRepository;
-	
+
 	@Autowired
 	private ValidateQueryParams validateQueryParams;
-	
-	//Get operation
+
+	// Get operation
 	@Override
-	public SprintDomain findById(String id){
-		if(sprintsRepository.existsById(id)) {
+	public SprintDomain findById(String id) {
+		if (sprintsRepository.existsById(id)) {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
 			return sprintsTransformer.transformer(sprintOptional.get());
-		}else {
+		} else {
 			throw new EntityNotFoundException("This Sprint does not exist", "/");
-		}		
+		}
 	}
-	
-	//Delete operation
+
+	// Delete operation
 	@Override
 	public void deleteById(String id) {
-		if(sprintsRepository.existsById(id)) {
+		if (sprintsRepository.existsById(id)) {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
 			sprintsValidations.sprintsActiveValidation(sprintOptional);
 			sprintsRepository.deleteById(id);
@@ -66,104 +66,103 @@ public class SprintsServiceImpl implements SprintsService {
 		}
 		throw new EntityNotFoundException("The given ID could not be found", "/");
 	}
-	
-	//Get operation find all sprints
+
+	// Get operation find all sprints
 	@Override
 	public List<SprintDomain> findAll() {
 		List<Sprint> sprints = sprintsRepository.findAll();
 		return sprintsTransformer.listTransformer(sprints);
 	}
-	
-	//Post operation
+
+	// Post operation
 	@Override
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public String createSprint(SprintDomain sprintDomain) {
-		
+
 		SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
-		
+
 		sprintsValidations.sprintValidateBothBooleans(sprintDomain);
-		
-		sprintsValidations.sprintValidateStartDate(sprintFinal);
-		
-		if(sprintFinal.getActive() == true) {
+
+		if (sprintFinal.getActive() == true) {
 			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
 			sprintsValidations.sprintsValidationsActive(sprints);
 		}
-		
-		if(sprintFinal.getIs_backlog() == true) {
+
+		if (sprintFinal.getIs_backlog() == true) {
 			Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
 			sprintsValidations.sprintValidateInBacklog(sprint);
 		}
-		
-		if(sprintDomain.getEnd_date() != null) {
+
+		if (sprintDomain.getEnd_date() != null) {
+			sprintsValidations.sprintValidateStartDate(sprintDomain);
 			sprintsValidations.sprintsEndDateValidations(sprintDomain);
 		}
 		try {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
-			
-		}catch(DuplicateKeyException e) {
+
+		} catch (DuplicateKeyException e) {
 			throw new EntityConflictException("There is a sprint with this name already", "/");
 		}
 	}
+
 	// Put Operation
-		@Override
-		@ResponseStatus(value = HttpStatus.ACCEPTED)
-		public SprintDomain updateSprint(SprintDomain sprintDomain, String id) {
-			if (sprintsRepository.existsById(id)) {
+	@Override
+	@ResponseStatus(value = HttpStatus.ACCEPTED)
+	public SprintDomain updateSprint(SprintDomain sprintDomain, String id) {
+		if (sprintsRepository.existsById(id)) {
 
-				SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
-				
-				sprintsValidations.sprintValidateBothBooleans(sprintDomain);
-				
-				sprintsValidations.sprintValidateStartDate(sprintFinal);
-				
-				if(sprintFinal.getActive() == true) {
-					Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
-					sprintsValidations.sprintsValidationsActive(sprints);
-				}
-				
-				if(sprintFinal.getIs_backlog() == true) {
-					Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
-					sprintsValidations.sprintValidateInBacklog(sprint);
-				}
-				
-				if(sprintFinal.getEnd_date() != null) {
-					sprintsValidations.sprintsEndDateValidations(sprintDomain);
-				}
-				
-				try {
-					sprintFinal.setId(id); 
-					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
-					return sprintFinal;
-				} catch (DuplicateKeyException e) {
-					throw new EntityConflictException("There is a sprint with this name already", "/");
-				}
-
-			} else {
-				throw new EntityNotFoundException("The given ID could not be found", "/");
+			SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
+			
+			sprintsValidations.sprintValidateBothBooleans(sprintDomain);
+			
+			if (sprintFinal.getActive() == true) {
+				Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
+				sprintsValidations.sprintsValidationsActive(sprints);
 			}
 
+			if (sprintFinal.getIs_backlog() == true) {
+				Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
+				sprintsValidations.sprintValidateInBacklog(sprint);
+			}
+
+			if (sprintFinal.getEnd_date() != null) {
+				sprintsValidations.sprintValidateStartDate(sprintDomain);
+				sprintsValidations.sprintsEndDateValidations(sprintDomain);
+			}
+
+			try {
+				sprintFinal.setId(id);
+				sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
+				return sprintFinal;
+			} catch (DuplicateKeyException e) {
+				throw new EntityConflictException("There is a sprint with this name already", "/");
+			}
+
+		} else {
+			throw new EntityNotFoundException("The given ID could not be found", "/");
 		}
-		
+
+	}
+
 	// Get Operation find all sprints sorted by parameters
-		@Override
-		public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
-				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
-			
-			Criteria criteria = validateQueryParams.fillCriteriaWithParams(name, technology, start_date, end_date);
-			
-			return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(criteria));
+	@Override
+	public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
+			Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+
+		Criteria criteria = validateQueryParams.fillCriteriaWithParams(name, technology, start_date, end_date);
+
+		return sprintsTransformer.listTransformer(sprintsCustomRepository.findAllByParams(criteria));
+	}
+
+	// Method to check if GET with filters or GET ALL will be performed
+	@Override
+	public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
+			Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+
+		if (!name.isPresent() && !technology.isPresent() && !start_date.isPresent() && !end_date.isPresent()) {
+			return findAll();
 		}
-		
-	//Method to check if GET with filters or GET ALL will be performed
-		@Override
-		public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
-				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
-				
-			if(!name.isPresent() && !technology.isPresent() && !start_date.isPresent() && !end_date.isPresent()) {
-				return findAll();
-			}
-				return findAllByParams(name, technology, start_date, end_date);
-		}
-	
-}	
+		return findAllByParams(name, technology, start_date, end_date);
+	}
+
+}
