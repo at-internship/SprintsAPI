@@ -1,6 +1,5 @@
 package com.sprints.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +18,8 @@ public interface SprintsService {
 	public SprintDomain updateSprint(SprintDomain sprintDomain, String id);
 
 	public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
-			Optional<LocalDate> start_date, Optional<LocalDate> end_date);
+			Optional<String> start_date, Optional<String> end_date);
 
 	public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
-			Optional<LocalDate> start_date, Optional<LocalDate> end_date);
+			Optional<String> start_date, Optional<String> end_date);
 }

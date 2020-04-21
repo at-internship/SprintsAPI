@@ -13,21 +13,21 @@ public class SprintsValidations {
 	
 	public void sprintValidateBothBooleans(SprintDomain sprintDomain){
 			if(sprintDomain.getActive() && sprintDomain.getIs_backlog()) {
-				throw new EntityConflictException("A sprint cannot be Active and in Backlog at the same time", "/");
+				throw new EntityConflictException("A sprint cannot be Active and in Backlog at the same time", "/sprints/");
 		}
 	}
 	
 	public void sprintsValidationsActive(Sprint sprint) {
 		if(sprint != null)
 			if(sprint.getActive() == true) {
-				throw new EntityConflictException("There is an active sprint already", "/");
+				throw new EntityConflictException("There is an active sprint already", "/sprints/");
 			}
 	}
 
 	public void sprintValidateInBacklog(Sprint sprint){
 		if (sprint != null) {
 			if(sprint.getIs_backlog() == true) {
-				throw new EntityConflictException("There is a sprint already in backlog", "/");
+				throw new EntityConflictException("There is a sprint already in backlog", "/sprints/");
 			}
 		}
 	}
@@ -35,7 +35,7 @@ public class SprintsValidations {
 	public void sprintsEndDateValidations(SprintDomain sprintDomain) {
 		if(sprintDomain.getActive() == true) {
 			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
-				throw new EntityConflictException("Sprints with past/present date can not be active", "/");
+				throw new EntityConflictException("Sprints with past/present date can not be active", "/sprints/");
 			}
 		}
 	}
