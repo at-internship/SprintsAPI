@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.sprints.domain.SprintDomain;
+import com.sprints.exception.BadRequestException;
 import com.sprints.exception.EntityConflictException;
 import com.sprints.model.Sprint;
 
@@ -43,7 +44,13 @@ public class SprintsValidations {
 	
 	public void sprintsActiveValidation(Optional<Sprint> sprintOptional){
 		if(sprintOptional.get().getActive() == true) {
-			throw new EntityConflictException("You cannot delete an active sprint", "/");
+			throw new EntityConflictException("You cannot delete an active sprint", "/sprints/");
+		}
+	}
+	
+	public void sprintsNameValidations(SprintDomain sprintDomain) {
+		if(sprintDomain.getName() == null || sprintDomain.getName().isEmpty() || sprintDomain.getName().chars().allMatch(Character::isWhitespace)) {
+			throw new BadRequestException("The field (name) must not be empty or null", "/sprints/");
 		}
 	}
 }

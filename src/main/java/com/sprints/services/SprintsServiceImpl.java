@@ -82,6 +82,8 @@ public class SprintsServiceImpl implements SprintsService {
 		
 		sprintsValidations.sprintValidateBothBooleans(sprintDomain);
 		
+		sprintsValidations.sprintsNameValidations(sprintDomain);
+		
 		if(sprintFinal.getActive() == true) {
 			Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
 			sprintsValidations.sprintsValidationsActive(sprints);
@@ -111,6 +113,8 @@ public class SprintsServiceImpl implements SprintsService {
 				SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
 				
 				sprintsValidations.sprintValidateBothBooleans(sprintDomain);
+				
+				sprintsValidations.sprintsNameValidations(sprintDomain);
 				
 				if(sprintFinal.getActive() == true) {
 					Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
