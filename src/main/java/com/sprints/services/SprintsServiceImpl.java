@@ -1,6 +1,5 @@
 package com.sprints.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +50,7 @@ public class SprintsServiceImpl implements SprintsService {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
 			return sprintsTransformer.transformer(sprintOptional.get());
 		}else {
-			throw new EntityNotFoundException("This Sprint does not exist", "/");
+			throw new EntityNotFoundException("This Sprint does not exist", "/sprints/" + id);
 		}		
 	}
 	
@@ -64,7 +63,7 @@ public class SprintsServiceImpl implements SprintsService {
 			sprintsRepository.deleteById(id);
 			return;
 		}
-		throw new EntityNotFoundException("The given ID could not be found", "/");
+		throw new EntityNotFoundException("The given ID could not be found", "/sprints/" + id);
 	}
 	
 	//Get operation find all sprints
@@ -100,7 +99,7 @@ public class SprintsServiceImpl implements SprintsService {
 			return sprintsRepository.save(sprintsTransformer.transformer(sprintFinal)).getId().toString();
 			
 		}catch(DuplicateKeyException e) {
-			throw new EntityConflictException("There is a sprint with this name already", "/");
+			throw new EntityConflictException("There is a sprint with this name already", "/sprints/");
 		}
 	}
 	// Put Operation
@@ -132,11 +131,11 @@ public class SprintsServiceImpl implements SprintsService {
 					sprintsRepository.save(sprintsTransformer.transformer(sprintFinal));
 					return sprintFinal;
 				} catch (DuplicateKeyException e) {
-					throw new EntityConflictException("There is a sprint with this name already", "/");
+					throw new EntityConflictException("There is a sprint with this name already", "/sprints/" + id);
 				}
 
 			} else {
-				throw new EntityNotFoundException("The given ID could not be found", "/");
+				throw new EntityNotFoundException("The given ID could not be found", "/sprints/" + id);
 			}
 
 		}
@@ -144,7 +143,7 @@ public class SprintsServiceImpl implements SprintsService {
 	// Get Operation find all sprints sorted by parameters
 		@Override
 		public List<SprintDomain> findAllByParams(Optional<String> name, Optional<String> technology,
-				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
+				Optional<String> start_date, Optional<String> end_date) {
 			
 			Criteria criteria = validateQueryParams.fillCriteriaWithParams(name, technology, start_date, end_date);
 			
@@ -154,8 +153,8 @@ public class SprintsServiceImpl implements SprintsService {
 	//Method to check if GET with filters or GET ALL will be performed
 		@Override
 		public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
-				Optional<LocalDate> start_date, Optional<LocalDate> end_date) {
-				
+				Optional<String> start_date, Optional<String> end_date) {
+			
 			if(!name.isPresent() && !technology.isPresent() && !start_date.isPresent() && !end_date.isPresent()) {
 				return findAll();
 			}
