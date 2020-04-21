@@ -26,23 +26,13 @@ import lombok.Getter;
 
 		public ApiError(HttpStatus error) {
 			this();
+			this.status = error.value();
 			this.error = error.getReasonPhrase();
-		}
-
-		public ApiError(HttpStatus error, Throwable ex) {
-			this();
-			this.error = error.getReasonPhrase();
-			this.message = "Unexpected error";
 		}
 
 		public ApiError(HttpStatus error, String message) {
 			this();
-			this.error = error.getReasonPhrase();
-			this.message = message;
-		}
-
-		public ApiError(HttpStatus error, String message, Throwable ex) {
-			this();
+			this.status = error.value();
 			this.error = error.getReasonPhrase();
 			this.message = message;
 		}
@@ -50,13 +40,6 @@ import lombok.Getter;
 		public ApiError(HttpStatus error, int status, String message, String path) {
 			this();
 			this.status = error.value();
-			this.error = error.getReasonPhrase();
-			this.message = message;
-			this.path = path;
-		}
-
-		public ApiError(HttpStatus error, String message, Throwable ex, String path) {
-			this();
 			this.error = error.getReasonPhrase();
 			this.message = message;
 			this.path = path;
