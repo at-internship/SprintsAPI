@@ -93,6 +93,7 @@ public class SprintsServiceImpl implements SprintsService {
 		}
 		
 		if(sprintDomain.getEnd_date() != null) {
+			sprintsValidations.sprintValidateStartDate(sprintDomain);
 			sprintsValidations.sprintsEndDateValidations(sprintDomain);
 		}
 		try {
@@ -123,6 +124,7 @@ public class SprintsServiceImpl implements SprintsService {
 				}
 				
 				if(sprintFinal.getEnd_date() != null) {
+					sprintsValidations.sprintValidateStartDate(sprintDomain);
 					sprintsValidations.sprintsEndDateValidations(sprintDomain);
 				}
 				
