@@ -36,7 +36,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 						error = ex.toString().substring(ex.toString().indexOf(statusArray[i]),
 								ex.toString().indexOf(statusArray[i]) + statusArray[i].length());
 						if (error.equals("start_date") || error.equals("end_date")) {
-							error = "Malformed JSON request, format date should be: 'YYYY-MM-DD'; at " + error;
+							error = "Malformed JSON request, date format should be: 'YYYY-MM-DD' at " + error;
 						}
 						return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, 400, error, "/sprints/"));
 					}
