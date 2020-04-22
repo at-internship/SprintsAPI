@@ -53,4 +53,9 @@ public class SprintsValidations {
 			throw new BadRequestException("The field (name) must not be empty or null", "/sprints/");
 		}
 	}
+	public void sprintValidateStartDate(SprintDomain sprintFinal){
+		if((sprintFinal.getStart_date().isAfter(sprintFinal.getEnd_date())) || (sprintFinal.getStart_date().isEqual(sprintFinal.getEnd_date()))) {
+			throw new EntityConflictException("The start date cannot be greater or same than the end date","/");
+		}
+	}
 }
