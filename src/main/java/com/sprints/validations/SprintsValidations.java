@@ -19,10 +19,23 @@ public class SprintsValidations {
 		}
 	}
 	
+	public void sprintValidateBothBooleans(SprintDomain sprintDomain, String id){
+		if(sprintDomain.getActive() && sprintDomain.getIs_backlog()) {
+			throw new EntityConflictException("A sprint cannot be Active and in Backlog at the same time", "/sprints/" + id);
+		}
+	}	
+	
 	public void sprintsValidationsActive(Sprint sprint) {
 		if(sprint != null)
 			if(sprint.getActive() == true) {
 				throw new EntityConflictException("There is an active sprint already", "/sprints/");
+			}
+	}
+	
+	public void sprintsValidationsActive(Sprint sprint, String id) {
+		if(sprint != null)
+			if(sprint.getActive() == true) {
+				throw new EntityConflictException("There is an active sprint already", "/sprints/" + id);
 			}
 	}
 
@@ -34,10 +47,26 @@ public class SprintsValidations {
 		}
 	}
 	
+	public void sprintValidateInBacklog(Sprint sprint, String id){
+		if (sprint != null) {
+			if(sprint.getIs_backlog() == true) {
+				throw new EntityConflictException("There is a sprint already in backlog", "/sprints/" + id);
+			}
+		}
+	}
+	
 	public void sprintsEndDateValidations(SprintDomain sprintDomain) {
 		if(sprintDomain.getActive() == true) {
 			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
 				throw new EntityConflictException("Sprints with past/present date can not be active", "/sprints/");
+			}
+		}
+	}
+	
+	public void sprintsEndDateValidations(SprintDomain sprintDomain, String id) {
+		if(sprintDomain.getActive() == true) {
+			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
+				throw new EntityConflictException("Sprints with past/present date can not be active", "/sprints/" + id);
 			}
 		}
 	}
@@ -53,9 +82,22 @@ public class SprintsValidations {
 			throw new BadRequestException("The field (name) must not be empty or null", "/sprints/");
 		}
 	}
+	
+	public void sprintsNameValidations(SprintDomain sprintDomain, String id) {
+		if(sprintDomain.getName() == null || sprintDomain.getName().isEmpty() || sprintDomain.getName().chars().allMatch(Character::isWhitespace)) {
+			throw new BadRequestException("The field (name) must not be empty or null", "/sprints/" + id);
+		}
+	}
+	
 	public void sprintValidateStartDate(SprintDomain sprintFinal){
 		if((sprintFinal.getStart_date().isAfter(sprintFinal.getEnd_date())) || (sprintFinal.getStart_date().isEqual(sprintFinal.getEnd_date()))) {
 			throw new EntityConflictException("The start date cannot be greater or same than the end date","/sprints/");
+		}
+	}
+	
+	public void sprintValidateStartDate(SprintDomain sprintFinal, String id){
+		if((sprintFinal.getStart_date().isAfter(sprintFinal.getEnd_date())) || (sprintFinal.getStart_date().isEqual(sprintFinal.getEnd_date()))) {
+			throw new EntityConflictException("The start date cannot be greater or same than the end date","/sprints/" + id);
 		}
 	}
 }

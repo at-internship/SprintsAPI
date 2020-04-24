@@ -50,7 +50,7 @@ public class SprintsServiceImpl implements SprintsService {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
 			return sprintsTransformer.transformer(sprintOptional.get());
 		}else {
-			throw new EntityNotFoundException("This Sprint does not exist", "/sprints/" + id);
+			throw new EntityNotFoundException("The given ID does not match with any sprint", "/sprints/" + id);
 		}		
 	}
 	
@@ -63,7 +63,7 @@ public class SprintsServiceImpl implements SprintsService {
 			sprintsRepository.deleteById(id);
 			return;
 		}
-		throw new EntityNotFoundException("The given ID could not be found", "/sprints/" + id);
+		throw new EntityNotFoundException("The given ID does not match with any sprint", "/sprints/" + id);
 	}
 	
 	//Get operation find all sprints
@@ -113,23 +113,23 @@ public class SprintsServiceImpl implements SprintsService {
 
 				SprintDomain sprintFinal = sprintDefault.sprintsDefaultValues(sprintDomain);
 				
-				sprintsValidations.sprintValidateBothBooleans(sprintDomain);
+				sprintsValidations.sprintValidateBothBooleans(sprintDomain, id);
 				
-				sprintsValidations.sprintsNameValidations(sprintDomain);
+				sprintsValidations.sprintsNameValidations(sprintDomain, id);
 				
 				if(sprintFinal.getActive() == true) {
 					Sprint sprints = sprintsValidationsRepository.oneSprintActiveValidation();
-					sprintsValidations.sprintsValidationsActive(sprints);
+					sprintsValidations.sprintsValidationsActive(sprints, id);
 				}
 				
 				if(sprintFinal.getIs_backlog() == true) {
 					Sprint sprint = sprintsValidationsRepository.oneSprintBacklogValidation();
-					sprintsValidations.sprintValidateInBacklog(sprint);
+					sprintsValidations.sprintValidateInBacklog(sprint, id);
 				}
 				
 				if(sprintFinal.getEnd_date() != null) {
-					sprintsValidations.sprintValidateStartDate(sprintDomain);
-					sprintsValidations.sprintsEndDateValidations(sprintDomain);
+					sprintsValidations.sprintValidateStartDate(sprintDomain, id);
+					sprintsValidations.sprintsEndDateValidations(sprintDomain, id);
 				}
 				
 				try {
@@ -141,7 +141,7 @@ public class SprintsServiceImpl implements SprintsService {
 				}
 
 			} else {
-				throw new EntityNotFoundException("The given ID could not be found", "/sprints/" + id);
+				throw new EntityNotFoundException("The given ID does not match with any sprint", "/sprints/" + id);
 			}
 
 		}
