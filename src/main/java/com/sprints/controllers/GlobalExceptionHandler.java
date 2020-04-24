@@ -24,8 +24,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 			
-		String[] statusArray = { "start_date", "end_date" };
+		String[] statusArray = { "active", "is_backlog", "start_date", "end_date",  };
 		String error = "";
+		String path = request.getDescription(false).substring(4);
 		
 		for (int i = 0; i < statusArray.length; i++) {
 			if (ex.toString().indexOf(statusArray[i]) == -1) {
@@ -38,12 +39,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 						if (error.equals("start_date") || error.equals("end_date")) {
 							error = "Malformed JSON request, date format should be: 'YYYY-MM-DD' at " + error;
 						}
-						return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, 400, error, "/sprints/"));
+						else if(error.equals("active") || error.equals("is_backlog") ) {
+							error = "Malformed JSON request, The format of the ('"+ error +"') field should be Boolean";
+						}
+						return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, 400, error, path));
 					}
 			}
 		}
 		String errorAlternative = "Malformed JSON request";
-		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, 400, errorAlternative, "/sprints/"));
+		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, 400, errorAlternative, path));
 	}
 
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
