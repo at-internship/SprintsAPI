@@ -94,6 +94,12 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.1.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -128,12 +134,15 @@
 						</goals>
 						<configuration>
 							<excludes>
+								<exclude>**/controllers/GlobalExceptionHandler.class</exclude>
+								<exclude>**/config/**/*</exclude>
 								<exclude>**/domain/**/*</exclude>
 								<exclude>**/exception/**/*</exclude>
 								<exclude>**/model/**/*</exclude>
-								<exclude>**/config/**/*</exclude>
+								<exclude>**/swagger/**/*</exclude>
+								<exclude>**/utils/**/*</exclude>
 								<exclude>src/test/**/*</exclude>
-								<exclude>**/com/sprints/SprintsApplication.class</exclude>
+								<exclude>**/com/sprints/SprintsApiApplication.class</exclude>
 							</excludes>
 							<!-- Sets the path to the file which contains the execution data. -->
 
@@ -215,5 +224,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 </project>

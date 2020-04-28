@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,6 +18,11 @@ public class TestUtils {
 
 	public TestUtils() {
 	}
+	
+	public static Criteria getEmptyCriteria() {
+		Criteria getEmptyCriteria = new Criteria();
+		return getEmptyCriteria;
+	}
 
 	public Sprint getEmptySprint() {
 		Sprint sprint = new Sprint();
@@ -28,12 +34,17 @@ public class TestUtils {
 		return sprintDomain;
 	}
 
-	public List<Sprint> getEmptySprintList() {
+	public static List<Sprint> getEmptySprintList() {
 		List<Sprint> sprintList = new ArrayList<Sprint>();
 		return sprintList;
 	}
 
-	public List<SprintDomain> getEmptySprintDomainList() {
+	public static List<SprintDomain> getEmptySprintDomainList() {
+		List<SprintDomain> sprintDomainList = new ArrayList<SprintDomain>();
+		return sprintDomainList;
+	}
+	
+	public List<SprintDomain> EmptySprintDomainList() {
 		List<SprintDomain> sprintDomainList = new ArrayList<SprintDomain>();
 		return sprintDomainList;
 	}
@@ -82,14 +93,29 @@ public class TestUtils {
 	public static Sprint getDummySprint() {
 		LocalDate start_date = LocalDate.now();
 		LocalDate end_date = start_date.plusDays(10);
+
 		Sprint sprint = new Sprint();
 		sprint.setId("5e7668cfacfc726352dc5abc");
 		sprint.setName("Sprint-Dummy");
 		sprint.setTechnology("Java");
-		sprint.setActive(true);
+		sprint.setActive(false);
 		sprint.setIs_backlog(false);
 		sprint.setStart_date(start_date);
 		sprint.setEnd_date(end_date);
+		return sprint;
+	}
+	
+	public static Sprint getDummySprintFalse() {
+		LocalDate start_date = LocalDate.now();
+
+		Sprint sprint = new Sprint();
+		sprint.setId("5e7668cfacfc726352dc5abc");
+		sprint.setName("Sprint-Dummy");
+		sprint.setTechnology("Java");
+		sprint.setActive(false);
+		sprint.setIs_backlog(false);
+		sprint.setStart_date(start_date);
+		sprint.setEnd_date(null);
 		return sprint;
 	}
 
@@ -110,14 +136,15 @@ public class TestUtils {
 	public static SprintDomain getDummySprintDomain() {
 		LocalDate start_date = LocalDate.now();
 		LocalDate end_date = start_date.plusDays(10);
+
 		SprintDomain sprintDomain = new SprintDomain();
 		sprintDomain.setId("5e837d8948b0866f87e1cc7f");
 		sprintDomain.setName("SprintDomain-Dummy");
 		sprintDomain.setTechnology("Java");
-		sprintDomain.setActive(false);
-		sprintDomain.setIs_backlog(false);
+		sprintDomain.setActive(true);
+		sprintDomain.setIs_backlog(true);
 		sprintDomain.setStart_date(start_date);
-		sprintDomain.setEnd_date(null);
+		sprintDomain.setEnd_date(end_date);
 		return sprintDomain;
 	}
 
@@ -169,6 +196,20 @@ public class TestUtils {
 		sprintDomain.setActive(false);
 		sprintDomain.setIs_backlog(false);
 		sprintDomain.setStart_date(start_date);
+		sprintDomain.setEnd_date(null);
+		return sprintDomain;
+	}
+	
+	public static SprintDomain getDummySprintDomainFalse() {
+		LocalDate start_date = LocalDate.now();
+		SprintDomain sprintDomain = new SprintDomain();
+		sprintDomain.setId("5e837d8948b0866f87e1cc7f");
+		sprintDomain.setName("SprintDomain-Dummy");
+		sprintDomain.setTechnology("Java");
+		sprintDomain.setActive(false);
+		sprintDomain.setIs_backlog(false);
+		sprintDomain.setStart_date(start_date);
+		sprintDomain.setEnd_date(null);
 		return sprintDomain;
 	}
 
@@ -302,10 +343,12 @@ public class TestUtils {
 	}
 
 	public SprintDomain getSprintDomainEndDateFuture() {
+		LocalDate start_date = LocalDate.now();
+		LocalDate end_date = start_date.plusDays(10);
 		SprintDomain sprintDomain = new SprintDomain();
 		sprintDomain.setId("5e7668cfacfc726352dc5abc");
 		sprintDomain.setActive(true);
-		sprintDomain.setEnd_date(LocalDate.of(2020, 04, 26));
+		sprintDomain.setEnd_date(end_date);
 		return sprintDomain;
 	}
 
@@ -380,10 +423,5 @@ public class TestUtils {
 	public static String mapToJson(Object obj) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(obj);
-	}
-
-	public static Object getEmptyCriteria() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

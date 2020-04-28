@@ -48,10 +48,10 @@ public class SprintsTransformerTest {
 
 	@Test
 	public void testListDomainTransformer() {
-		doReturn(testUtils.getEmptySprintDomainList()).when(mapperFacade).map(testUtils.getEmptySprintList(),
+		doReturn(TestUtils.getEmptySprintDomainList()).when(mapperFacade).map(TestUtils.getEmptySprintList(),
 				SprintDomain.class);
-		assertEquals(testUtils.getEmptySprintDomainList(),
-				sprintsTransformer.listTransformer(testUtils.getEmptySprintList()));
+		assertEquals(TestUtils.getEmptySprintDomainList(),
+				sprintsTransformer.listTransformer(TestUtils.getEmptySprintList()));
 	}
 
 }

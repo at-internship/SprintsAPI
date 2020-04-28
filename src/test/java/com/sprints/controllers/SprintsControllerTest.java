@@ -36,8 +36,6 @@ public class SprintsControllerTest {
 	@InjectMocks
 	private SprintsController sprintsController;
 
-	private TestUtils testUtils;
-
 	@Mock
 	private SprintsServiceImpl sprintsServiceImpl;
 
@@ -51,7 +49,6 @@ public class SprintsControllerTest {
 	@Before
 	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		testUtils = new TestUtils();
 		sprintsConstants = new SprintsConstants();
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
@@ -81,8 +78,9 @@ public class SprintsControllerTest {
 
 	@Test
 	public void testFindSprintByIdNotFound() throws Exception {
-		when(sprintsServiceImpl.findById(anyString())).thenReturn(null);
-		assertEquals(null, sprintsController.findSprintById(sprintsConstants.getSimpleId()));
+		when(sprintsServiceImpl.findById(anyString())).thenReturn(TestUtils.getEmptySprintDomain());
+		assertEquals(TestUtils.getEmptySprintDomain(),
+				sprintsController.findSprintById(sprintsConstants.getSimpleId()));
 		MvcResult mvcResult = mockMvc.perform(
 				MockMvcRequestBuilders.get(sprintsConstants.getGetByIdUri(), TestUtils.getDummySprintDomain().getId())
 						.accept(MediaType.APPLICATION_JSON))
@@ -97,8 +95,8 @@ public class SprintsControllerTest {
 	public void testFindAllSprints() throws Exception {
 		when(sprintsServiceImpl.findAllSprints(sprintsConstants.getName(), sprintsConstants.getTechnology(),
 				sprintsConstants.getStart_date(), sprintsConstants.getEnd_date()))
-						.thenReturn(testUtils.getEmptySprintDomainList());
-		assertEquals(testUtils.getEmptySprintDomainList(), sprintsController.findAllSprints(sprintsConstants.getName(),
+						.thenReturn(TestUtils.getEmptySprintDomainList());
+		assertEquals(TestUtils.getEmptySprintDomainList(), sprintsController.findAllSprints(sprintsConstants.getName(),
 				sprintsConstants.getTechnology(), sprintsConstants.getStart_date(), sprintsConstants.getEnd_date()));
 	}
 

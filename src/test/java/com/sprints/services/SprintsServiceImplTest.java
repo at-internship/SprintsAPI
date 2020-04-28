@@ -28,10 +28,12 @@ import com.sprints.mapper.SprintsDefaultMapper;
 import com.sprints.mapper.SprintsTransformer;
 import com.sprints.model.Sprint;
 import com.sprints.repository.SprintsCustomRepository;
+import com.sprints.repository.SprintsCustomRepositoryImpl;
 import com.sprints.repository.SprintsRepository;
 import com.sprints.utils.SprintsConstants;
 import com.sprints.utils.TestUtils;
 import com.sprints.validations.SprintsValidations;
+import com.sprints.validations.ValidateQueryParams;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +42,7 @@ public class SprintsServiceImplTest {
 	@InjectMocks
 	private SprintsServiceImpl sprintsServiceImpl;
 
+	private TestUtils testUtils;
 	private SprintsConstants sprintsConstants;
 
 	@Mock
@@ -47,6 +50,9 @@ public class SprintsServiceImplTest {
 
 	@Mock
 	private SprintsCustomRepository sprintsValidationsRepository;
+
+	@Mock
+	private SprintsCustomRepositoryImpl sprintsValidationsRepositoryImpl;
 
 	@Mock
 	private SprintsTransformer sprintsTransformer;
@@ -58,6 +64,12 @@ public class SprintsServiceImplTest {
 	private SprintsDefaultMapper sprintDefault;
 
 	@Mock
+	private ValidateQueryParams validateQueryParams;
+
+	@Mock
+	private SprintsDefaultMapper sprintsDefaultMapper;
+
+	@Mock
 	private Sprint sprint;
 
 	@Mock
@@ -67,6 +79,7 @@ public class SprintsServiceImplTest {
 	public void setupMock() {
 		MockitoAnnotations.initMocks(this);
 		sprintsConstants = new SprintsConstants();
+		testUtils = new TestUtils();
 	}
 
 	@Rule
@@ -103,7 +116,7 @@ public class SprintsServiceImplTest {
 	public void testDeleteById_EntityNotFoundException() {
 
 		doNothing().when(sprintsRepository).deleteById(anyString());
-		doReturn(false).when(sprintsRepository).existsById(sprintsConstants.getSprintId());
+		doReturn(sprintsConstants.isBooleanFalse()).when(sprintsRepository).existsById(sprintsConstants.getSprintId());
 		sprintsServiceImpl.deleteById(sprintsConstants.getSprintId());
 	}
 
@@ -123,6 +136,13 @@ public class SprintsServiceImplTest {
 		when(sprintDefault.sprintsDefaultValues(TestUtils.getDummySprintDomain()))
 				.thenReturn(TestUtils.getDummySprintDomain());
 		doNothing().when(sprintsValidations).sprintValidateBothBooleans(TestUtils.getDummySprintDomain());
+		doNothing().when(sprintsValidations).sprintsNameValidations(TestUtils.getDummySprintDomain());
+		when(sprintsValidationsRepositoryImpl.oneSprintActiveValidation()).thenReturn(TestUtils.getDummySprint());
+		doNothing().when(sprintsValidations).sprintsValidationsActive(TestUtils.getDummySprint());
+		when(sprintsValidationsRepositoryImpl.oneSprintBacklogValidation()).thenReturn(TestUtils.getDummySprint());
+		doNothing().when(sprintsValidations).sprintValidateInBacklog(TestUtils.getDummySprint());
+		doNothing().when(sprintsValidations).sprintValidateStartDate(TestUtils.getDummySprintDomain());
+		doNothing().when(sprintsValidations).sprintsEndDateValidations(TestUtils.getDummySprintDomain());
 		when(sprintsTransformer.transformer(TestUtils.getDummySprintDomain())).thenReturn(TestUtils.getDummySprint());
 		when(sprintsRepository.save(TestUtils.getDummySprint())).thenReturn(TestUtils.getDummySprint());
 		sprintsServiceImpl.createSprint(TestUtils.getDummySprintDomain());
@@ -131,22 +151,90 @@ public class SprintsServiceImplTest {
 	}
 
 	@Test
+	public void createSprintNoIf() {
+
+		when(sprintDefault.sprintsDefaultValues(TestUtils.getDummySprintDomainFalse()))
+				.thenReturn(TestUtils.getDummySprintDomainFalse());
+		doNothing().when(sprintsValidations).sprintValidateBothBooleans(TestUtils.getDummySprintDomainFalse());
+		doNothing().when(sprintsValidations).sprintsNameValidations(TestUtils.getDummySprintDomain());
+		when(sprintsTransformer.transformer(TestUtils.getDummySprintDomainFalse()))
+				.thenReturn(TestUtils.getDummySprint());
+		when(sprintsRepository.save(TestUtils.getDummySprint())).thenReturn(TestUtils.getDummySprint());
+		sprintsServiceImpl.createSprint(TestUtils.getDummySprintDomainFalse());
+		assertEquals(TestUtils.getDummySprint().getId(),
+				sprintsServiceImpl.createSprint(TestUtils.getDummySprintDomainFalse()));
+	}
+
+	@Test
 	public void updateSprint() {
 
 		when(sprintsRepository.existsById(anyString())).thenReturn(sprintsConstants.isBooleanTrue());
 		when(sprintDefault.sprintsDefaultValues(TestUtils.getDummySprintDomain()))
 				.thenReturn(TestUtils.getDummySprintDomain());
+		doNothing().when(sprintsValidations).sprintValidateBothBooleans(TestUtils.getDummySprintDomain());
+		doNothing().when(sprintsValidations).sprintsNameValidations(TestUtils.getDummySprintDomain());
+		when(sprintsValidationsRepositoryImpl.oneSprintActiveValidation()).thenReturn(TestUtils.getDummySprint());
+		doNothing().when(sprintsValidations).sprintsValidationsActive(TestUtils.getDummySprint());
+		when(sprintsValidationsRepositoryImpl.oneSprintBacklogValidation()).thenReturn(TestUtils.getDummySprint());
+		doNothing().when(sprintsValidations).sprintValidateInBacklog(TestUtils.getDummySprint());
+		doNothing().when(sprintsValidations).sprintValidateStartDate(TestUtils.getDummySprintDomain());
+		doNothing().when(sprintsValidations).sprintsEndDateValidations(TestUtils.getDummySprintDomain());
 		when(sprintsTransformer.transformer(TestUtils.getDummySprintDomain())).thenReturn(TestUtils.getDummySprint());
-		SprintDomain sprintDomain = sprintsServiceImpl.updateSprint(TestUtils.getDummySprintDomain(),
-				sprintsConstants.getSprintId());
-		System.out.println("Es true ------------------>" + sprintDomain);
 		assertEquals(TestUtils.getDummySprintDomain(),
 				sprintsServiceImpl.updateSprint(TestUtils.getDummySprintDomain(), sprintsConstants.getSprintId()));
+	}
+
+	@Test
+	public void updateSprintNoIf() {
+
+		when(sprintsRepository.existsById(anyString())).thenReturn(sprintsConstants.isBooleanTrue());
+		when(sprintDefault.sprintsDefaultValues(TestUtils.getDummySprintDomainFalse()))
+				.thenReturn(TestUtils.getDummySprintDomainFalse());
+		doNothing().when(sprintsValidations).sprintValidateBothBooleans(TestUtils.getDummySprintDomainFalse());
+		doNothing().when(sprintsValidations).sprintsNameValidations(TestUtils.getDummySprintDomain());
+		when(sprintsTransformer.transformer(TestUtils.getDummySprintDomainFalse()))
+				.thenReturn(TestUtils.getDummySprint());
+		assertEquals(TestUtils.getDummySprintDomainFalse(),
+				sprintsServiceImpl.updateSprint(TestUtils.getDummySprintDomainFalse(), sprintsConstants.getSprintId()));
 	}
 
 	@Test(expected = EntityNotFoundException.class)
 	public void updateSprintNotFound() {
 		when(sprintsRepository.existsById(anyString())).thenReturn(sprintsConstants.isBooleanFalse());
 		sprintsServiceImpl.updateSprint(TestUtils.getDummySprintDomain(), sprintsConstants.getSprintId());
+	}
+
+	@Test
+	public void findAllByParams() {
+
+		when(validateQueryParams.fillCriteriaWithParams(sprintsConstants.getName(), sprintsConstants.getTechnology(),
+				sprintsConstants.getStart_date(), sprintsConstants.getEnd_date()))
+						.thenReturn(TestUtils.getEmptyCriteria());
+		when(sprintsValidationsRepository.findAllByParams(TestUtils.getEmptyCriteria()))
+				.thenReturn(TestUtils.getEmptySprintList());
+		when(sprintsTransformer.listTransformer(TestUtils.getEmptySprintList()))
+				.thenReturn(TestUtils.getEmptySprintDomainList());
+		sprintsServiceImpl.findAllByParams(sprintsConstants.getName(), sprintsConstants.getTechnology(),
+				sprintsConstants.getStart_date(), sprintsConstants.getEnd_date());
+		assertEquals(TestUtils.getEmptySprintDomainList(),
+				sprintsServiceImpl.findAllByParams(sprintsConstants.getName(), sprintsConstants.getTechnology(),
+						sprintsConstants.getStart_date(), sprintsConstants.getEnd_date()));
+
+	}
+
+	@Test
+	public void testFindAllSprints() {
+		assertEquals(testUtils.EmptySprintDomainList(),
+				sprintsServiceImpl.findAllSprints(sprintsConstants.getCriteriaNameEmpty(),
+						sprintsConstants.getCriteriaTechnology(), sprintsConstants.getCriteriaStartD(),
+						sprintsConstants.getCriteriaEndD()));
+	}
+
+	@Test
+	public void testFindAllSprintIf() {
+		assertEquals(testUtils.EmptySprintDomainList(),
+				sprintsServiceImpl.findAllSprints(sprintsConstants.getCriteriaNameEmpty(),
+						sprintsConstants.getCriteriaTechnologyEmpty(), sprintsConstants.getCriteriaStartDEmpty(),
+						sprintsConstants.getCriteriaEndDEmpty()));
 	}
 }
