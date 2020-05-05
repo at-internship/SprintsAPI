@@ -27,6 +27,20 @@ public class SprintsConstants {
 	final String stringTechnology = "technology";
 	final String stringStartDate = "start_date";
 	final String stringEndDate = "end_date";
+
+	public static final String getByIdDescription = "Find a Sprint by id";
+	public static final String getAllDescription = "Finds all Sprints";
+	public static final String deleteDescription = "Delete a Sprint by id";
+	public static final String postDescription = "Add new Sprint";
+	public static final String putDescription = "Update an existing sprint by id";
+	public static final String message200 = "OK";
+	public static final String message201 = "Created";
+	public static final String message204 = "No Content";
+	public static final String message400 = "The JSON format provided is invalid";
+	public static final String message404 = "Sprint Not Found";
+	public static final String message409 = "Conflict";
+	public static final String message409Delete = "You cannot delete an active Sprint\"";
+
 	final boolean booleanTrue = true;
 	final boolean booleanFalse = false;
 
