@@ -37,10 +37,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 						error = ex.toString().substring(ex.toString().indexOf(statusArray[i]),
 								ex.toString().indexOf(statusArray[i]) + statusArray[i].length());
 						if (error.equals("start_date") || error.equals("end_date")) {
-							error = "Malformed JSON request, date format should be: 'YYYY-MM-DD' at " + error;
+							error =  error + " format is yyyy-MM-dd";
 						}
 						else if(error.equals("active") || error.equals("is_backlog") ) {
-							error = "Malformed JSON request, The format of the ('"+ error +"') field should be Boolean";
+							error = "Malformed JSON request, the  ('"+ error +"') field should be 'true' or 'false'";
 						}
 						return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, 400, error, path));
 					}
