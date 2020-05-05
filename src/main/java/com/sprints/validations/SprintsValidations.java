@@ -42,7 +42,7 @@ public class SprintsValidations {
 	public void sprintValidateInBacklog(Sprint sprint){
 		if (sprint != null) {
 			if(sprint.getIs_backlog() == true) {
-				throw new EntityConflictException("There is a sprint already in backlog", "/sprints/");
+				throw new EntityConflictException("There is a sprint in backlog already", "/sprints/");
 			}
 		}
 	}
@@ -50,7 +50,7 @@ public class SprintsValidations {
 	public void sprintValidateInBacklog(Sprint sprint, String id){
 		if (sprint != null) {
 			if(sprint.getIs_backlog() == true) {
-				throw new EntityConflictException("There is a sprint already in backlog", "/sprints/" + id);
+				throw new EntityConflictException("There is a sprint in backlog already", "/sprints/" + id);
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class SprintsValidations {
 	public void sprintsEndDateValidations(SprintDomain sprintDomain) {
 		if(sprintDomain.getActive() == true) {
 			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
-				throw new EntityConflictException("Sprints with past/present date can not be active", "/sprints/");
+				throw new EntityConflictException("Sprints with past/present date cannot be active", "/sprints/");
 			}
 		}
 	}
@@ -66,26 +66,26 @@ public class SprintsValidations {
 	public void sprintsEndDateValidations(SprintDomain sprintDomain, String id) {
 		if(sprintDomain.getActive() == true) {
 			if(sprintDomain.getEnd_date().isBefore(LocalDate.now()) || sprintDomain.getEnd_date().isEqual(LocalDate.now())) {
-				throw new EntityConflictException("Sprints with past/present date can not be active", "/sprints/" + id);
+				throw new EntityConflictException("Sprints with past/present date cannot be active", "/sprints/" + id);
 			}
 		}
 	}
 	
-	public void sprintsActiveValidation(Optional<Sprint> sprintOptional){
+	public void sprintsActiveValidation(Optional<Sprint> sprintOptional, String id){
 		if(sprintOptional.get().getActive() == true) {
-			throw new EntityConflictException("You cannot delete an active sprint", "/sprints/");
+			throw new EntityConflictException("You cannot delete an active sprint", "/sprints/" + id);
 		}
 	}
 	
 	public void sprintsNameValidations(SprintDomain sprintDomain) {
 		if(sprintDomain.getName() == null || sprintDomain.getName().isEmpty() || sprintDomain.getName().chars().allMatch(Character::isWhitespace)) {
-			throw new BadRequestException("The field (name) must not be empty or null", "/sprints/");
+			throw new BadRequestException("The JSON format provided is invalid, please provide the required field ('Name')", "/sprints/");
 		}
 	}
 	
 	public void sprintsNameValidations(SprintDomain sprintDomain, String id) {
 		if(sprintDomain.getName() == null || sprintDomain.getName().isEmpty() || sprintDomain.getName().chars().allMatch(Character::isWhitespace)) {
-			throw new BadRequestException("The field (name) must not be empty or null", "/sprints/" + id);
+			throw new BadRequestException("The JSON format provided is invalid, please provide the required field ('Name')", "/sprints/" + id);
 		}
 	}
 	

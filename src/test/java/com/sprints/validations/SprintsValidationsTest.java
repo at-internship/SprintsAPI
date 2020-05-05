@@ -200,12 +200,12 @@ public class SprintsValidationsTest {
 	 */
 	@Test(expected = EntityConflictException.class)
 	public void testSprintsActiveValidation() {
-		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprint());
+		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprint(), sprintsConstants.getSprintId());
 	}
 
 	@Test
 	public void testSprintsActiveValidationFalse() {
-		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprintActiveFalse());
+		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprintActiveFalse(), sprintsConstants.getSprintId());
 	}
 
 	@Test(expected = EntityConflictException.class)

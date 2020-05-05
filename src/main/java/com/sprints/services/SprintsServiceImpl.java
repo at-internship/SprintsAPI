@@ -50,7 +50,7 @@ public class SprintsServiceImpl implements SprintsService {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
 			return sprintsTransformer.transformer(sprintOptional.get());
 		}else {
-			throw new EntityNotFoundException("The given ID does not match with any sprint", "/sprints/" + id);
+			throw new EntityNotFoundException("Sprint not found", "/sprints/" + id);
 		}		
 	}
 	
@@ -59,11 +59,11 @@ public class SprintsServiceImpl implements SprintsService {
 	public void deleteById(String id) {
 		if(sprintsRepository.existsById(id)) {
 			Optional<Sprint> sprintOptional = sprintsRepository.findById(id);
-			sprintsValidations.sprintsActiveValidation(sprintOptional);
+			sprintsValidations.sprintsActiveValidation(sprintOptional, id);
 			sprintsRepository.deleteById(id);
 			return;
 		}
-		throw new EntityNotFoundException("The given ID does not match with any sprint", "/sprints/" + id);
+		throw new EntityNotFoundException("Sprint not found", "/sprints/" + id);
 	}
 	
 	//Get operation find all sprints
@@ -141,7 +141,7 @@ public class SprintsServiceImpl implements SprintsService {
 				}
 
 			} else {
-				throw new EntityNotFoundException("The given ID does not match with any sprint", "/sprints/" + id);
+				throw new EntityNotFoundException("Sprint not found", "/sprints/" + id);
 			}
 
 		}
