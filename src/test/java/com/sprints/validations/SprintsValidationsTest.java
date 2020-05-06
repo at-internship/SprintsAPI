@@ -38,7 +38,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void testSprintValidateBothBooleansId() {
-		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomainTrue(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomainTrue(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -51,7 +51,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintValidateBothBooleansActiveId() {
-		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomainActive(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomainActive(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -64,7 +64,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintValidateBothBooleansBacklogId() {
-		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomainBacklog(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomainBacklog(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -77,7 +77,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintValidateBothBooleansFalseId() {
-		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomain(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateBothBooleans(testUtils.getSprintDomain(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -90,7 +90,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void testSprintsValidationsActiveId() {
-		sprintValidations.sprintsValidationsActive(TestUtils.getSprint(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsValidationsActive(TestUtils.getSprint(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintsValidationsActiveWrongId() {
-		sprintValidations.sprintsValidationsActive(null, sprintsConstants.getSprintId());
+		sprintValidations.sprintsValidationsActive(null, sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -110,7 +110,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintsValidationsActiveFalseId() {
-		sprintValidations.sprintsValidationsActive(TestUtils.getSprintTwo(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsValidationsActive(TestUtils.getSprintTwo(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -123,7 +123,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void sprintValidateInBacklogId() {
-		sprintValidations.sprintValidateInBacklog(TestUtils.getSprintTwo(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateInBacklog(TestUtils.getSprintTwo(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -133,7 +133,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void sprintValidateInBacklogWrongId() {
-		sprintValidations.sprintValidateInBacklog(null, sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateInBacklog(null, sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -143,7 +143,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void sprintValidateInBacklogFalseId() {
-		sprintValidations.sprintValidateInBacklog(TestUtils.getSprint(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateInBacklog(TestUtils.getSprint(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -156,7 +156,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void testSprintsEndDateValidationsId() {
-		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomainActive(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomainActive(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -166,7 +166,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintsEndDateValidationsFalseId() {
-		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomain(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomain(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -179,7 +179,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void testSprintsEndDateValidationsDateId() {
-		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomainEndDateFuture(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomainEndDateFuture(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -192,7 +192,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void testSprintsEndDateValidationsDatePastId() {
-		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomainEndDatePast(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsEndDateValidations(testUtils.getSprintDomainEndDatePast(), sprintsConstants.getSPRINT_ID());
 	}
 
 	/***
@@ -200,12 +200,12 @@ public class SprintsValidationsTest {
 	 */
 	@Test(expected = EntityConflictException.class)
 	public void testSprintsActiveValidation() {
-		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprint(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprint(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
 	public void testSprintsActiveValidationFalse() {
-		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprintActiveFalse(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsActiveValidation(testUtils.getOptionalSprintActiveFalse(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test(expected = EntityConflictException.class)
@@ -215,7 +215,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void sprintValidateStartDateAfterId() {
-		sprintValidations.sprintValidateStartDate(TestUtils.getDummySprintDomainStartDateAfter(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateStartDate(TestUtils.getDummySprintDomainStartDateAfter(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test(expected = EntityConflictException.class)
@@ -225,7 +225,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = EntityConflictException.class)
 	public void sprintValidateStartDateEqualId() {
-		sprintValidations.sprintValidateStartDate(TestUtils.getDummySprintDomainStartDateEqual(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateStartDate(TestUtils.getDummySprintDomainStartDateEqual(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -234,7 +234,7 @@ public class SprintsValidationsTest {
 	}
 	@Test
 	public void sprintValidateStartDateId() {
-		sprintValidations.sprintValidateStartDate(TestUtils.getDummySprintDomainTrue(), sprintsConstants.getSprintId());
+		sprintValidations.sprintValidateStartDate(TestUtils.getDummySprintDomainTrue(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test(expected = BadRequestException.class)
@@ -244,7 +244,7 @@ public class SprintsValidationsTest {
 
 	@Test(expected = BadRequestException.class)
 	public void sprintsNameValidationsNullId() {
-		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNameNull(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNameNull(), sprintsConstants.getSPRINT_ID());
 	}
 	
 	@Test(expected = BadRequestException.class)
@@ -254,7 +254,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = BadRequestException.class)
 	public void sprintsNameValidationsEmptyId() {
-		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNameEmpty(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNameEmpty(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test(expected = BadRequestException.class)
@@ -264,7 +264,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = BadRequestException.class)
 	public void sprintsNameValidationsCharsId() {
-		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNull(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNull(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test(expected = BadRequestException.class)
@@ -274,7 +274,7 @@ public class SprintsValidationsTest {
 	
 	@Test(expected = BadRequestException.class)
 	public void sprintsNameValidationsNothingId() {
-		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNoting(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomainNoting(), sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
@@ -284,7 +284,7 @@ public class SprintsValidationsTest {
 	
 	@Test
 	public void sprintsNameValidationsId() {
-		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomain(), sprintsConstants.getSprintId());
+		sprintValidations.sprintsNameValidations(TestUtils.getDummySprintDomain(), sprintsConstants.getSPRINT_ID());
 	}
 
 }

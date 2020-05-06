@@ -24,7 +24,6 @@ import com.sprints.domain.SprintDomain;
 import com.sprints.domain.SprintDomainId;
 import com.sprints.exception.EntityNotFoundException;
 import com.sprints.services.SprintsService;
-import com.sprints.utils.SprintsConstants;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,10 +39,10 @@ public class SprintsController {
 	@Autowired
 	private SprintsService sprintsService;
 
-	@ApiOperation(value = "DELETE Sprint", notes = SprintsConstants.deleteDescription, tags = "/")
-	@ApiResponses(value = { @ApiResponse(code = 204, message = SprintsConstants.message204),
-			@ApiResponse(code = 404, message = SprintsConstants.message404),
-			@ApiResponse(code = 409, message = SprintsConstants.message409Delete) })
+	@ApiOperation(value = "DELETE Sprint", notes = "Delete a Sprint by id", tags = "/")
+	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content"),
+			@ApiResponse(code = 404, message = "Sprint Not Found"),
+			@ApiResponse(code = 409, message = "You cannot delete an active Sprint\"") })
 	@DeleteMapping(value = "/{id}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteSprintById(
@@ -51,9 +50,9 @@ public class SprintsController {
 		sprintsService.deleteById(id);
 	}
 
-	@ApiOperation(value = "GET Sprint", notes = SprintsConstants.getByIdDescription, response = SprintDomain.class, tags = "/")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = SprintsConstants.message200),
-			@ApiResponse(code = 404, message = SprintsConstants.message404) })
+	@ApiOperation(value = "GET Sprint", notes = "Find a Sprint by id", response = SprintDomain.class, tags = "/")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 404, message = "Sprint Not Found") })
 	@GetMapping("/{id}")
 	public SprintDomain findSprintById(
 			@ApiParam(value = "Id of the Sprint to be obtained, Cannot be empty.", required = true) @PathVariable("id") String id)
@@ -62,8 +61,8 @@ public class SprintsController {
 		return sprintDomain;
 	}
 
-	@ApiOperation(value = "GET Sprints", notes = SprintsConstants.getAllDescription)
-	@ApiResponse(code = 200, message = SprintsConstants.message200)
+	@ApiOperation(value = "GET Sprints", notes = "Finds all Sprints")
+	@ApiResponse(code = 200, message = "OK")
 	@RequestMapping(method = RequestMethod.GET)
 	public List<SprintDomain> findAllSprints(
 			@ApiParam(value = "Name of the Sprint.", required = false) @RequestParam("name") Optional<String> name,
@@ -74,10 +73,10 @@ public class SprintsController {
 
 	}
 
-	@ApiOperation(value = "POST Sprint", notes = SprintsConstants.postDescription, tags = "/")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = SprintsConstants.message201),
-			@ApiResponse(code = 400, message = SprintsConstants.message400),
-			@ApiResponse(code = 409, message = SprintsConstants.message409) })
+	@ApiOperation(value = "POST Sprint", notes = "Add new Sprint", tags = "/")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
+			@ApiResponse(code = 400, message = "The JSON format provided is invalid"),
+			@ApiResponse(code = 409, message = "Conflict") })
 	@PostMapping(value = "/")
 	public ResponseEntity<Object> createSprint(
 			@ApiParam(value = "Add Sprint.", required = true) @Valid @RequestBody SprintDomain sprintDomain) {
@@ -87,11 +86,11 @@ public class SprintsController {
 
 	}
 
-	@ApiOperation(value = "PUT Sprint", notes = SprintsConstants.putDescription, tags = "/")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = SprintsConstants.message200),
-			@ApiResponse(code = 400, message = SprintsConstants.message400),
-			@ApiResponse(code = 409, message = SprintsConstants.message409),
-			@ApiResponse(code = 404, message = SprintsConstants.message404) })
+	@ApiOperation(value = "PUT Sprint", notes = "Update an existing sprint by id", tags = "/")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 400, message = "The JSON format provided is invalid"),
+			@ApiResponse(code = 409, message = "Conflict"),
+			@ApiResponse(code = 404, message = "Sprint Not Found") })
 	@ResponseStatus(value = HttpStatus.OK)
 	@PutMapping("/{id}")
 	public SprintDomain updateSprint(

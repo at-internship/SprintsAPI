@@ -56,14 +56,14 @@ public class SprintsControllerTest {
 	@Test
 	public void testDeleteById() throws Exception {
 		doNothing().when(sprintsServiceImpl).deleteById(anyString());
-		sprintsController.deleteSprintById(sprintsConstants.getSprintId());
+		sprintsController.deleteSprintById(sprintsConstants.getSPRINT_ID());
 	}
 
 	@Test
 	public void testDeleteByIdNotFound() throws Exception {
-		sprintsController.deleteSprintById(sprintsConstants.getSprintId());
+		sprintsController.deleteSprintById(sprintsConstants.getSPRINT_ID());
 		MvcResult mvcResult = mockMvc
-				.perform(MockMvcRequestBuilders.delete(sprintsConstants.getDeleteUri(), sprintsConstants.getSprintId()))
+				.perform(MockMvcRequestBuilders.delete(sprintsConstants.getDELETE_URI(), sprintsConstants.getSPRINT_ID()))
 				.andReturn();
 		int status = mvcResult.getResponse().getStatus();
 		Assert.assertEquals(404, status);
@@ -73,16 +73,16 @@ public class SprintsControllerTest {
 	public void testFindSprintById() throws Exception {
 		when(sprintsServiceImpl.findById(anyString())).thenReturn(TestUtils.getEmptySprintDomain());
 		assertEquals(TestUtils.getEmptySprintDomain(),
-				sprintsController.findSprintById(sprintsConstants.getSimpleId()));
+				sprintsController.findSprintById(sprintsConstants.getSIMPLE_ID()));
 	}
 
 	@Test
 	public void testFindSprintByIdNotFound() throws Exception {
 		when(sprintsServiceImpl.findById(anyString())).thenReturn(TestUtils.getEmptySprintDomain());
 		assertEquals(TestUtils.getEmptySprintDomain(),
-				sprintsController.findSprintById(sprintsConstants.getSimpleId()));
+				sprintsController.findSprintById(sprintsConstants.getSIMPLE_ID()));
 		MvcResult mvcResult = mockMvc.perform(
-				MockMvcRequestBuilders.get(sprintsConstants.getGetByIdUri(), TestUtils.getDummySprintDomain().getId())
+				MockMvcRequestBuilders.get(sprintsConstants.getGET_BY_ID_URI(), TestUtils.getDummySprintDomain().getId())
 						.accept(MediaType.APPLICATION_JSON))
 				.andReturn();
 		int status = mvcResult.getResponse().getStatus();
@@ -93,11 +93,11 @@ public class SprintsControllerTest {
 
 	@Test
 	public void testFindAllSprints() throws Exception {
-		when(sprintsServiceImpl.findAllSprints(sprintsConstants.getName(), sprintsConstants.getTechnology(),
-				sprintsConstants.getStart_date(), sprintsConstants.getEnd_date()))
+		when(sprintsServiceImpl.findAllSprints(sprintsConstants.getNAME(), sprintsConstants.getTECHNOLOGY(),
+				sprintsConstants.getSTART_DATE(), sprintsConstants.getEND_DATE()))
 						.thenReturn(TestUtils.getEmptySprintDomainList());
-		assertEquals(TestUtils.getEmptySprintDomainList(), sprintsController.findAllSprints(sprintsConstants.getName(),
-				sprintsConstants.getTechnology(), sprintsConstants.getStart_date(), sprintsConstants.getEnd_date()));
+		assertEquals(TestUtils.getEmptySprintDomainList(), sprintsController.findAllSprints(sprintsConstants.getNAME(),
+				sprintsConstants.getTECHNOLOGY(), sprintsConstants.getSTART_DATE(), sprintsConstants.getEND_DATE()));
 	}
 
 	@Test
@@ -105,17 +105,15 @@ public class SprintsControllerTest {
 		sprintsController.createSprint(TestUtils.getEmptySprintDomain());
 		MockMvcRequestBuilders.post("/").contentType(MediaType.APPLICATION_JSON_VALUE)
 				.accept(MediaType.APPLICATION_JSON).characterEncoding("UTF-8")
-				.content("{{\n" + "\"name\": \"ValidationTesting\",\n" + "\"technology\": \"PEGA\",\n"
-						+ "\"active\": true,\n" + "\"is_backlog\": false,\n" + "\"start_date\": \"2020-04-23\",\n"
-						+ "\"end_date\": \"2020-05-25\"\n" + "}}");
+				.content(sprintsConstants.getCREATE_TEST_CONTENT());
 		verify(sprintsServiceImpl, times(1)).createSprint(TestUtils.getEmptySprintDomain());
 	}
 
 	@Test
 	public void testUpdateSprint() {
-		when(sprintsServiceImpl.updateSprint(TestUtils.getEmptySprintDomain(), sprintsConstants.getSimpleId()))
+		when(sprintsServiceImpl.updateSprint(TestUtils.getEmptySprintDomain(), sprintsConstants.getSIMPLE_ID()))
 				.thenReturn(TestUtils.getEmptySprintDomain());
 		assertEquals(TestUtils.getEmptySprintDomain(),
-				sprintsController.updateSprint(TestUtils.getEmptySprintDomain(), sprintsConstants.getSimpleId()));
+				sprintsController.updateSprint(TestUtils.getEmptySprintDomain(), sprintsConstants.getSIMPLE_ID()));
 	}
 }

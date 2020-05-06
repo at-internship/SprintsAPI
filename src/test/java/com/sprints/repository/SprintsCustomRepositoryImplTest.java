@@ -38,14 +38,14 @@ public class SprintsCustomRepositoryImplTest {
 
 	@Test
 	public void testOneSprintActiveValidation() {
-		Query query = new Query().addCriteria(Criteria.where("active").is(sprintsConstants.isBooleanTrue()));
+		Query query = new Query().addCriteria(Criteria.where(sprintsConstants.getSTRING_ACTIVE()).is(sprintsConstants.isBOOLEAN_TRUE()));
 		doReturn(TestUtils.getDummySprintTrue()).when(mongoTemplate).findOne(query, Sprint.class);
 		assertEquals(TestUtils.getDummySprintTrue(), sprintsCustomRepositoryImpl.oneSprintActiveValidation());
 	}
 
 	@Test
 	public void testOneSprintBacklogValidation() {
-		Query query = new Query().addCriteria(Criteria.where("is_backlog").is(sprintsConstants.isBooleanTrue()));
+		Query query = new Query().addCriteria(Criteria.where(sprintsConstants.getSTRING_IS_BACKLOG()).is(sprintsConstants.isBOOLEAN_TRUE()));
 		doReturn(TestUtils.getDummySprintTrue()).when(mongoTemplate).findOne(query, Sprint.class);
 		assertEquals(TestUtils.getDummySprintTrue(), sprintsCustomRepositoryImpl.oneSprintBacklogValidation());
 	}
@@ -53,7 +53,7 @@ public class SprintsCustomRepositoryImplTest {
 	@Test
 	public void testFindAllByParamsName() {
 		Criteria criteria = new Criteria();
-		criteria = criteria.and(sprintsConstants.getStringName()).is(sprintsConstants.getCriteriaName());
+		criteria = criteria.and(sprintsConstants.getSTRING_NAME()).is(sprintsConstants.getCRITERIA_NAME());
 		Query query = new Query(criteria);
 		doReturn(TestUtils.getSomeSprintsList()).when(mongoTemplate).find(query, Sprint.class);
 		assertEquals(TestUtils.getSomeSprintsList(), sprintsCustomRepositoryImpl.findAllByParams(criteria));
