@@ -33,37 +33,37 @@ public class ValidateQueryParamsTest {
 
 	@Test
 	public void testFillCriteriaWithParams() {
-		when(validateDateFormat.stringToDate(sprintsConstants.getCriteriaStartD()))
-				.thenReturn(sprintsConstants.getDate());
-		when(validateDateFormat.stringToDate(sprintsConstants.getCriteriaEndD()))
-				.thenReturn(sprintsConstants.getDate());
-		assertEquals(sprintsConstants.getCriteria1(),
-				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCriteriaName(),
-						sprintsConstants.getCriteriaTechnology(), sprintsConstants.getCriteriaStartD(),
-						sprintsConstants.getCriteriaEndD()));
+		when(validateDateFormat.stringToDate(sprintsConstants.getCRITERIA_START_D()))
+				.thenReturn(sprintsConstants.getDATE());
+		when(validateDateFormat.stringToDate(sprintsConstants.getCRITERIA_END_D()))
+				.thenReturn(sprintsConstants.getDATE());
+		assertEquals(sprintsConstants.getCRITERIA_1(),
+				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCRITERIA_NAME(),
+						sprintsConstants.getCRITERIA_TECHNOLOGY(), sprintsConstants.getCRITERIA_START_D(),
+						sprintsConstants.getCRITERIA_END_D()));
 	}
 
 	@Test
 	public void testFillCriteriaWithParamsFailed() {
 		assertEquals(TestUtils.getEmptyCriteria(),
-				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCriteriaNameEmpty(),
-						sprintsConstants.getCriteriaTechnologyEmpty(), sprintsConstants.getCriteriaStartDEmpty(),
-						sprintsConstants.getCriteriaEndDEmpty()));
+				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCRITERIA_NAME_EMPTY(),
+						sprintsConstants.getCRITERIA_TECHNOLOGY_EMPTY(), sprintsConstants.getCRITERIA_START_D_EMPTY(),
+						sprintsConstants.getCRITERIA_END_D_EMPTY()));
 	}
 
 	@Test
 	public void testFillCriteriaWithParamsWrong() {
-		assertEquals(sprintsConstants.getCriteriaNoDates(),
-				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCriteriaName(),
-						sprintsConstants.getCriteriaTechnology(), sprintsConstants.getCriteriaNoStartDate(),
-						sprintsConstants.getCriteriaNoEndDate()));
+		assertEquals(sprintsConstants.getCRITERIA_NO_DATES(),
+				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCRITERIA_NAME(),
+						sprintsConstants.getCRITERIA_TECHNOLOGY(), sprintsConstants.getCRITERIA_NO_START_DATE(),
+						sprintsConstants.getCRITERIA_NO_END_DATE()));
 	}
 
 	@Test
 	public void testFillCriteriaBlanks() {
 		assertEquals(TestUtils.getEmptyCriteria(),
-				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCriteriaNameBlank(),
-						sprintsConstants.getCriteriaTechnologyBlank(), sprintsConstants.getCriteriaStartDateBlank(),
-						sprintsConstants.getCriteriaEndDateBlank()));
+				validateQueryParams.fillCriteriaWithParams(sprintsConstants.getCRITERIA_NAME_BLANK(),
+						sprintsConstants.getCRITERIA_TECHNOLOGY_BLANK(), sprintsConstants.getCRITERIA_START_DATE_BLANK(),
+						sprintsConstants.getCRITERIA_END_DATE_BLANK()));
 	}
 }
