@@ -122,3 +122,8 @@ structure created with de Java Framework Spring Boot.</p>
 
 Created with Swagger
 link - http://sprints-qa.us-east-2.elasticbeanstalk.com/swagger-ui.html#/
+
+# Pending Features
+
+Modify malformed error messages with backlog field: “Malformed JSON request, the  ('active') field should be 'true' or 'false'” instead of Malformed JSON request, the  ('backlog') field should be 'true' or 'false'.
+
