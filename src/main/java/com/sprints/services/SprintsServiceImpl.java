@@ -192,5 +192,9 @@ public class SprintsServiceImpl implements SprintsService {
 				+ start_date + " End date: " + end_date);
 		return findAllByParams(name, technology, start_date, end_date);
 	}
+	
+	public void testingConflict() {
+		logger.info("Método de Luis");
+	}
 
 }

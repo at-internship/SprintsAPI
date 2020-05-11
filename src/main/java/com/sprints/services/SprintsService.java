@@ -22,4 +22,6 @@ public interface SprintsService {
 
 	public List<SprintDomain> findAllSprints(Optional<String> name, Optional<String> technology,
 			Optional<String> start_date, Optional<String> end_date);
+	
+	public void testingConflict();
 }
