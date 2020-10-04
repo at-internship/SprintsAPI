@@ -194,6 +194,7 @@ public class SprintsServiceImpl implements SprintsService {
 	}
 	
 	public void testingConflict() {
+		logger.info("Metodo de Luis");
 		logger.info("Método de Luis");
 	}
 
